@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using KCYPano.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -11,6 +12,11 @@ namespace KCYPano.Controllers
 {
     public class PanoController : Controller
     {
+        private static string PANO_TEMP_PATH = AppDomain.CurrentDomain.BaseDirectory + "TEMP";
+        private static string PANO_DB_FILE = @"E:\DoDo\C#\全景上传\_db\panos.db";
+        private static string PANO_SHP_FILE = @"E:\DoDo\C#\全景上传\_db\panos.shp";
+        private static string PANO_TOOL_EXE = @"E:\DoDo\C#\全景上传\_tools\krpano\krpanotools64.exe";
+
         //
         // GET: /Pano/
 
@@ -29,8 +35,7 @@ namespace KCYPano.Controllers
             try
             {
                 string filePath = Server.MapPath("~/data/");
-                if (!Directory.Exists(filePath))
-                {
+                if (!Directory.Exists(filePath)) {
                     Directory.CreateDirectory(filePath);
                 }
 
@@ -71,7 +76,25 @@ namespace KCYPano.Controllers
         [AcceptVerbs(HttpVerbs.Get)]
         public string PanoXml(string uid)
         {
+            //PanoItem item;
 
+            SQLiteConnectionStringBuilder sb = new SQLiteConnectionStringBuilder();
+            sb.DataSource = @"D:\TEMP\panos.db";
+            SQLiteConnection conn = new SQLiteConnection(sb.ToString());
+            conn.Open();
+            string sql = "select * from panos";
+
+            foreach (var item in conn.Query<PanoItem>(sql))
+            {
+
+            }
+
+            sql = "select * from tiles";
+
+            foreach (var item in conn.Query<TileItem>(sql))
+            {
+
+            }
 
             return "xml:" + uid;
         }
@@ -90,6 +113,8 @@ namespace KCYPano.Controllers
         {
             //FileStreamResult
             //FileResult
+
+
 
             return File(new FileStream(@"F:\DoDo\勘测院全景系统\KCYPano\data\topband.jpg", FileMode.Open, FileAccess.Read, FileShare.Read), "image/jpeg");
 
