@@ -4,6 +4,8 @@ bin
 *.suo
 /packages
 App_Data
-/KCYPano/_tools
-/KCYPano/_data
-/KCYPano/_save
+/KCYPanoServer/_data
+/KCYPanoServer/_files
+/KCYPanoServer/_save
+/KCYPanoServer/_tiles
+/KCYPanoServer/_tools

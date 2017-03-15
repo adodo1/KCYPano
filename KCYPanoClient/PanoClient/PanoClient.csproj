@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3B129882-92C1-4BE2-B498-2D1722EA2AA0}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PanoClient</RootNamespace>
+    <AssemblyName>PanoClient</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GMap.NET.Core">
+      <HintPath>dll\GMap.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsForms">
+      <HintPath>dll\GMap.NET.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CheckForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CheckForm.Designer.cs">
+      <DependentUpon>CheckForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomProvider.cs" />
+    <Compile Include="ImageListView\ComboxConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\Enums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\Events.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\HitInfo.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewCacheMetadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewCacheShellInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewCacheThumbnail.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewCheckedItemCollection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewColor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewColorTypeConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewColumnHeader.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewColumnHeaderCollection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewColumnHeaderTypeConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewDesigner.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewGroup.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewGroupCollection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewItemAdaptor.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewItemAdaptors.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewItemCollection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewItemTypeConverter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewLayoutManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewNavigationManager.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewRenderer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewRenderers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ImageListViewResources.de.Designer.cs" />
+    <Compile Include="ImageListView\ImageListViewResources.Designer.cs" />
+    <Compile Include="ImageListView\ImageListViewResources.tr.Designer.cs" />
+    <Compile Include="ImageListView\ImageListViewSelectedItemCollection.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\MetadataExtractor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\MultilineTextEditor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\OpenFileDialogEditor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\PersistentCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\QueuedBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImageListView\QueuedBackgroundWorkerEvents.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ShellInfoExtractor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\ThumbnailExtractor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageListView\Utility.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="LoadCoorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadCoorForm.Designer.cs">
+      <DependentUpon>LoadCoorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Map.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyGridEx\BrowsableTypeConverter.cs" />
+    <Compile Include="PropertyGridEx\CustomChoices.cs" />
+    <Compile Include="PropertyGridEx\CustomColorScheme.cs" />
+    <Compile Include="PropertyGridEx\CustomProperty.cs" />
+    <Compile Include="PropertyGridEx\CustomPropertyCollection.cs" />
+    <Compile Include="PropertyGridEx\CustomPropertyCollectionSet.cs" />
+    <Compile Include="PropertyGridEx\PointFConverter.cs" />
+    <Compile Include="PropertyGridEx\PropertyGridEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PropertyGridEx\PropertyGridEx.Designer.cs">
+      <DependentUpon>PropertyGridEx.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyGridEx\UICustomEventEditor.cs" />
+    <Compile Include="PropertyGridEx\UIFilenameEditor.cs" />
+    <Compile Include="PropertyGridEx\UIListboxEditor.cs" />
+    <Compile Include="WCFClient\WCFClient.cs" />
+    <EmbeddedResource Include="CheckForm.resx">
+      <DependentUpon>CheckForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImageListView\ImageListView.bmp" />
+    <EmbeddedResource Include="ImageListView\ImageListViewResources.de.resx" />
+    <EmbeddedResource Include="ImageListView\ImageListViewResources.resx" />
+    <EmbeddedResource Include="ImageListView\ImageListViewResources.tr.resx" />
+    <EmbeddedResource Include="ImageListView\QueuedBackgroundWorker.bmp" />
+    <EmbeddedResource Include="LoadCoorForm.resx">
+      <DependentUpon>LoadCoorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ImageListView\Contrib.txt" />
+    <Content Include="ImageListView\Resources\DefaultImage.png" />
+    <Content Include="ImageListView\Resources\EmptyRatingImage.png" />
+    <Content Include="ImageListView\Resources\ErrorImage.png" />
+    <Content Include="ImageListView\Resources\RatingImage.png" />
+    <Content Include="ImageListView\Resources\SortAscending.png" />
+    <Content Include="ImageListView\Resources\SortDescending.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

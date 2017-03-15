@@ -114,6 +114,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\ExifReader.cs" />
+    <Compile Include="Common\ExifTags.cs" />
     <Compile Include="Controllers\PanoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -121,6 +123,7 @@
     <Compile Include="Models\PanoItem.cs" />
     <Compile Include="Models\SceneItem.cs" />
     <Compile Include="Models\TileItem.cs" />
+    <Compile Include="PanoTools\PanoMaker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +131,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="panorama\krpano.js" />
+    <Content Include="panorama\krpano.swf" />
+    <Content Include="panorama\_template.html" />
+    <Content Include="panorama\_template.xml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -142,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Pano\Look.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Pano\PanoXml.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

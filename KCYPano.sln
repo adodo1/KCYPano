@@ -3,18 +3,34 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KCYPano", "KCYPano\KCYPano.csproj", "{8755DB62-E3AF-419C-87B6-34CBF03453D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanoServer", "KCYPanoServer\PanoServer.csproj", "{8755DB62-E3AF-419C-87B6-34CBF03453D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PanoClient", "KCYPanoClient\PanoClient\PanoClient.csproj", "{3B129882-92C1-4BE2-B498-2D1722EA2AA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Designer|Any CPU = Debug Designer|Any CPU
 		Debug|Any CPU = Debug|Any CPU
+		Release without WIC|Any CPU = Release without WIC|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Debug Designer|Any CPU.ActiveCfg = Debug|Any CPU
+		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Debug Designer|Any CPU.Build.0 = Debug|Any CPU
 		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Release without WIC|Any CPU.ActiveCfg = Release|Any CPU
+		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Release without WIC|Any CPU.Build.0 = Release|Any CPU
 		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8755DB62-E3AF-419C-87B6-34CBF03453D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Debug Designer|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Debug Designer|Any CPU.Build.0 = Debug|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Release without WIC|Any CPU.ActiveCfg = Release|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Release without WIC|Any CPU.Build.0 = Release|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B129882-92C1-4BE2-B498-2D1722EA2AA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
