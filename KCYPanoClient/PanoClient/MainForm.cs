@@ -26,6 +26,12 @@ namespace PanoClient
 
             InitMAP();
             InitImageListView();
+
+            //设置自动换行
+            dataGridViewPano.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
+            //设置自动调整高度
+            dataGridViewPano.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewPano.Cursor = new Cursor(GetType(), "Resources.mouse.cur"); 
         }
         /// <summary>
         /// 
@@ -227,6 +233,9 @@ namespace PanoClient
             foreach (string file in dialog.FileNames) {
                 imageListView.Items.Add(file);
             }
+            dataGridViewPano.DataSource = null;
+            dataGridViewPano.DataSource = imageListView.Items;
+            dataGridViewPano.Refresh();
         }
         /// <summary>
         /// 导入坐标
@@ -293,7 +302,7 @@ namespace PanoClient
                 row["lng"] = item.PanoLng;
                 row["date"] = item.PanoDate;
                 row["heading"] = item.PanoHeading;
-                row["describe"] = item.PanoDes;
+                row["describe"] = item.PanoRemark;
                 row["file"] = item.FileName;
                 // 检查
                 int width = item.Dimensions.Width;
@@ -328,11 +337,17 @@ namespace PanoClient
         /// </summary>
         private void imageListView_SelectionChanged(object sender, EventArgs e)
         {
+            // 列表联动
+            dataGridViewPano.ClearSelection();
+            foreach (ImageListViewItem item in imageListView.SelectedItems) {
+                foreach (DataGridViewRow row in dataGridViewPano.Rows) {
+                    if (row.DataBoundItem == item) { row.Selected = true; break; }
+                }
+            }
+
             ImageListViewItem sel = null;
             if (imageListView.SelectedItems.Count > 0) sel = imageListView.SelectedItems[0];
             //propertyGridEx.SelectedObject = sel;
-            //dataGridViewPano.DataSource = sel;
-            //dataGridViewPano.Refresh();
 
             // 地图上定位坐标
             _markers.Markers.Clear();
@@ -352,9 +367,11 @@ namespace PanoClient
             if (e.KeyCode == Keys.Delete) {
                 // 删除选中
                 if (imageListView.SelectedItems.Count > 0) {
+                    dataGridViewPano.DataSource = null;
                     for (int i = imageListView.SelectedItems.Count - 1; i >= 0; i--) {
                         imageListView.Items.Remove(imageListView.SelectedItems[i]);
                     }
+                    dataGridViewPano.DataSource = imageListView.Items;
                 }
             }
         }

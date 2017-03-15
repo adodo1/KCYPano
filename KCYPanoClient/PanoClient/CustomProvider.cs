@@ -15,7 +15,7 @@ namespace PanoClient
         {
             MaxZoom = null;
             RefererUrl = "http://www.lzdodo.com/";
-            Copyright = string.Format("©{0} DoDo , ©{0} NAVTEQ", DateTime.Today.Year);    
+            Copyright = string.Format("©{0} DoDo , ©{1}", DateTime.Today.Year, "柳州勘测院");    
         }
 
         public override PureProjection Projection

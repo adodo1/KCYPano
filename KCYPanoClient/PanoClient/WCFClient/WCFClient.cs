@@ -17,6 +17,7 @@ namespace PanoClient
 
         public void test()
         {
+            return;
             using (HttpClient client = new HttpClient()) {
                 //设定要响应的数据格式 text/json 或者 text/xml
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/json"));

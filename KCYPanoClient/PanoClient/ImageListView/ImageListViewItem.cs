@@ -409,7 +409,7 @@ namespace PanoClient.ImageListView
         private int _panoHeading = 0;
         private double _panoLat = 0;
         private double _panoLng = 0;
-        private string _panoDes = "";
+        private string _panoRemark = "";
         private string _panoCategory = "没有分类";
 
         /// <summary>
@@ -418,7 +418,7 @@ namespace PanoClient.ImageListView
         [Category("全景属性"), Browsable(true), Description("全景名称."), DisplayName("A.名称")]
         public string PanoName {
             get { if (_panoName == "") _panoName = System.IO.Path.GetFileNameWithoutExtension(mFileName); return _panoName; }
-            set { _panoName = value; }
+            set { _panoName = value; Text = value; }
         }
         /// <summary>
         /// 全景分类
@@ -474,10 +474,10 @@ namespace PanoClient.ImageListView
         /// </summary>
         [Category("全景属性"), Browsable(true), Description("全景描述."), DisplayName("G.描述"),
         EditorAttribute(typeof(MultilineTextEditor), typeof(System.Drawing.Design.UITypeEditor))]
-        public string PanoDes
+        public string PanoRemark
         {
-            get { return _panoDes; }
-            set { _panoDes = value; }
+            get { return _panoRemark; }
+            set { _panoRemark = value; }
         }
         #endregion
 
@@ -486,27 +486,27 @@ namespace PanoClient.ImageListView
         /// <summary>
         /// Gets file size in bytes.
         /// </summary>
-        [Category("文件属性"), Browsable(true), Description("文件大小(字节)."), DisplayName("文件大小")]
+        [Category("文件属性"), Browsable(false), Description("文件大小(字节)."), DisplayName("文件大小")]
         public long FileSizeEx { get { UpdateFileInfo(); return mFileSize; } }
         /// <summary>
         /// Gets the shell type of the image file represented by this item.
         /// </summary>
-        [Category("文件属性"), Browsable(true), Description("文件类型."), DisplayName("文件类型")]
+        [Category("文件属性"), Browsable(false), Description("文件类型."), DisplayName("文件类型")]
         public string FileTypeEx { get { UpdateFileInfo(); return mFileType; } }
         /// <summary>
         /// Gets image dimensions.
         /// </summary>
-        [Category("文件属性"), Browsable(true), Description("图像高度和宽度."), DisplayName("图像尺寸")]
+        [Category("文件属性"), Browsable(false), Description("图像高度和宽度."), DisplayName("图像尺寸")]
         public Size DimensionsEx { get { UpdateFileInfo(); return mDimensions; } }
         /// <summary>
         /// Gets the modification date of the image file represented by this item.
         /// </summary>
-        [Category("文件属性"), Browsable(true), Description("文件修改时间."), DisplayName("修改时间")]
+        [Category("文件属性"), Browsable(false), Description("文件修改时间."), DisplayName("修改时间")]
         public DateTime DateModifiedEx { get { UpdateFileInfo(); return mDateModified; } }
         /// <summary>
         /// Gets or sets the name of the image file represented by this item.
         /// </summary>        
-        [Category("文件属性"), Browsable(true), Description("文件全路径."), DisplayName("文件路径"), ReadOnly(true)]
+        [Category("文件属性"), Browsable(false), Description("文件全路径."), DisplayName("文件路径"), ReadOnly(true)]
         [Editor(typeof(OpenFileDialogEditor), typeof(UITypeEditor))]
         public string FileNameEx
         {

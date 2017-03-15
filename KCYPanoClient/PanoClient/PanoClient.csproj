@@ -250,6 +250,7 @@
     <Content Include="ImageListView\Resources\RatingImage.png" />
     <Content Include="ImageListView\Resources\SortAscending.png" />
     <Content Include="ImageListView\Resources\SortDescending.png" />
+    <EmbeddedResource Include="Resources\mouse.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

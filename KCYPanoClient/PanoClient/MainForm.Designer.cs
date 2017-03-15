@@ -46,20 +46,13 @@
             this.dataGridViewPano = new System.Windows.Forms.DataGridView();
             this.imageListView = new PanoClient.ImageListView.ImageListView();
             this.MainMap = new PanoClient.Map();
-            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnLat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnLng = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnHeading = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnDes = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ColumnFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -74,7 +67,7 @@
             this.toolStripMenuItemAbout});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1157, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1157, 25);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -84,20 +77,20 @@
             this.toolStripMenuItemLoadIMG,
             this.toolStripMenuItemLoadCoor});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
-            this.toolStripMenuItemFile.Size = new System.Drawing.Size(59, 20);
+            this.toolStripMenuItemFile.Size = new System.Drawing.Size(58, 21);
             this.toolStripMenuItemFile.Text = "文件(&F)";
             // 
             // toolStripMenuItemLoadIMG
             // 
             this.toolStripMenuItemLoadIMG.Name = "toolStripMenuItemLoadIMG";
-            this.toolStripMenuItemLoadIMG.Size = new System.Drawing.Size(142, 22);
+            this.toolStripMenuItemLoadIMG.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItemLoadIMG.Text = "加载全景图";
             this.toolStripMenuItemLoadIMG.Click += new System.EventHandler(this.toolStripMenuItemLoadIMG_Click);
             // 
             // toolStripMenuItemLoadCoor
             // 
             this.toolStripMenuItemLoadCoor.Name = "toolStripMenuItemLoadCoor";
-            this.toolStripMenuItemLoadCoor.Size = new System.Drawing.Size(142, 22);
+            this.toolStripMenuItemLoadCoor.Size = new System.Drawing.Size(148, 22);
             this.toolStripMenuItemLoadCoor.Text = "批量导入坐标";
             this.toolStripMenuItemLoadCoor.Click += new System.EventHandler(this.toolStripMenuItemLoadCoor_Click);
             // 
@@ -106,20 +99,20 @@
             this.工具TToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemSubmit});
             this.工具TToolStripMenuItem.Name = "工具TToolStripMenuItem";
-            this.工具TToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
+            this.工具TToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
             this.工具TToolStripMenuItem.Text = "工具(&T)";
             // 
             // toolStripMenuItemSubmit
             // 
             this.toolStripMenuItemSubmit.Name = "toolStripMenuItemSubmit";
-            this.toolStripMenuItemSubmit.Size = new System.Drawing.Size(94, 22);
+            this.toolStripMenuItemSubmit.Size = new System.Drawing.Size(100, 22);
             this.toolStripMenuItemSubmit.Text = "提交";
             this.toolStripMenuItemSubmit.Click += new System.EventHandler(this.toolStripMenuItemSubmit_Click);
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(59, 20);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(60, 21);
             this.toolStripMenuItemAbout.Text = "关于(&A)";
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
             // 
@@ -137,14 +130,14 @@
             // toolStripStatusLabelInfo
             // 
             this.toolStripStatusLabelInfo.Name = "toolStripStatusLabelInfo";
-            this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(29, 17);
+            this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(32, 17);
             this.toolStripStatusLabelInfo.Text = "就绪";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.InactiveCaption;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1113, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1110, 17);
             this.toolStripStatusLabel2.Spring = true;
             this.toolStripStatusLabel2.Text = "『=DoDo=』";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -180,7 +173,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -190,7 +183,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1157, 613);
+            this.splitContainer1.Size = new System.Drawing.Size(1157, 612);
             this.splitContainer1.SplitterDistance = 238;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -209,8 +202,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.dataGridViewPano);
-            this.splitContainer2.Size = new System.Drawing.Size(915, 613);
-            this.splitContainer2.SplitterDistance = 429;
+            this.splitContainer2.Size = new System.Drawing.Size(915, 612);
+            this.splitContainer2.SplitterDistance = 428;
             this.splitContainer2.TabIndex = 3;
             // 
             // dataGridViewPano
@@ -221,24 +214,12 @@
             this.dataGridViewPano.AllowUserToResizeRows = false;
             this.dataGridViewPano.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridViewPano.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dataGridViewPano.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewPano.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ColumnName,
-            this.ColumnCategory,
-            this.ColumnLat,
-            this.ColumnLng,
-            this.ColumnDate,
-            this.ColumnHeading,
-            this.ColumnDes,
-            this.ColumnInfo,
-            this.ColumnFile});
+            this.dataGridViewPano.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridViewPano.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewPano.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewPano.Name = "dataGridViewPano";
-            this.dataGridViewPano.ReadOnly = true;
             this.dataGridViewPano.RowHeadersVisible = false;
             this.dataGridViewPano.RowTemplate.Height = 23;
-            this.dataGridViewPano.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewPano.Size = new System.Drawing.Size(915, 180);
             this.dataGridViewPano.TabIndex = 2;
             // 
@@ -251,7 +232,7 @@
             this.imageListView.Name = "imageListView";
             this.imageListView.PersistentCacheDirectory = "";
             this.imageListView.PersistentCacheSize = ((long)(100));
-            this.imageListView.Size = new System.Drawing.Size(238, 613);
+            this.imageListView.Size = new System.Drawing.Size(238, 612);
             this.imageListView.TabIndex = 1;
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
             this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView_KeyDown);
@@ -278,81 +259,9 @@
             this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.MainMap.ShowTileGridLines = false;
-            this.MainMap.Size = new System.Drawing.Size(915, 429);
+            this.MainMap.Size = new System.Drawing.Size(915, 428);
             this.MainMap.TabIndex = 0;
             this.MainMap.Zoom = 0D;
-            // 
-            // ColumnName
-            // 
-            this.ColumnName.DataPropertyName = "PanoName";
-            this.ColumnName.FillWeight = 20F;
-            this.ColumnName.HeaderText = "全景名称";
-            this.ColumnName.Name = "ColumnName";
-            this.ColumnName.ReadOnly = true;
-            // 
-            // ColumnCategory
-            // 
-            this.ColumnCategory.DataPropertyName = "category";
-            this.ColumnCategory.FillWeight = 8F;
-            this.ColumnCategory.HeaderText = "分类";
-            this.ColumnCategory.Name = "ColumnCategory";
-            this.ColumnCategory.ReadOnly = true;
-            // 
-            // ColumnLat
-            // 
-            this.ColumnLat.DataPropertyName = "PanoLat";
-            this.ColumnLat.FillWeight = 15F;
-            this.ColumnLat.HeaderText = "纬度";
-            this.ColumnLat.Name = "ColumnLat";
-            this.ColumnLat.ReadOnly = true;
-            // 
-            // ColumnLng
-            // 
-            this.ColumnLng.DataPropertyName = "lng";
-            this.ColumnLng.FillWeight = 15F;
-            this.ColumnLng.HeaderText = "经度";
-            this.ColumnLng.Name = "ColumnLng";
-            this.ColumnLng.ReadOnly = true;
-            // 
-            // ColumnDate
-            // 
-            this.ColumnDate.DataPropertyName = "date";
-            this.ColumnDate.FillWeight = 10F;
-            this.ColumnDate.HeaderText = "日期";
-            this.ColumnDate.Name = "ColumnDate";
-            this.ColumnDate.ReadOnly = true;
-            // 
-            // ColumnHeading
-            // 
-            this.ColumnHeading.DataPropertyName = "heading";
-            this.ColumnHeading.FillWeight = 7F;
-            this.ColumnHeading.HeaderText = "角度";
-            this.ColumnHeading.Name = "ColumnHeading";
-            this.ColumnHeading.ReadOnly = true;
-            // 
-            // ColumnDes
-            // 
-            this.ColumnDes.DataPropertyName = "describe";
-            this.ColumnDes.FillWeight = 15F;
-            this.ColumnDes.HeaderText = "描述";
-            this.ColumnDes.Name = "ColumnDes";
-            this.ColumnDes.ReadOnly = true;
-            // 
-            // ColumnInfo
-            // 
-            this.ColumnInfo.DataPropertyName = "info";
-            this.ColumnInfo.FillWeight = 20F;
-            this.ColumnInfo.HeaderText = "信息";
-            this.ColumnInfo.Name = "ColumnInfo";
-            this.ColumnInfo.ReadOnly = true;
-            // 
-            // ColumnFile
-            // 
-            this.ColumnFile.DataPropertyName = "file";
-            this.ColumnFile.HeaderText = "文件";
-            this.ColumnFile.Name = "ColumnFile";
-            this.ColumnFile.ReadOnly = true;
-            this.ColumnFile.Visible = false;
             // 
             // MainForm
             // 
@@ -372,9 +281,11 @@
             this.statusStrip.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).EndInit();
             this.ResumeLayout(false);
@@ -402,15 +313,6 @@
         private PanoClient.ImageListView.ImageListView imageListView;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridView dataGridViewPano;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCategory;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLat;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLng;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHeading;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDes;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnInfo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFile;
     }
 }
 
