@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLoadIMG = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,14 +42,28 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.dataGridViewPano = new System.Windows.Forms.DataGridView();
             this.imageListView = new PanoClient.ImageListView.ImageListView();
-            this.propertyGridEx = new PanoClient.PropertyGridEx();
             this.MainMap = new PanoClient.Map();
+            this.ColumnName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnCategory = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnLat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnLng = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnHeading = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnDes = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ColumnFile = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -61,7 +74,7 @@
             this.toolStripMenuItemAbout});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1058, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1157, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -115,9 +128,9 @@
             this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabelInfo,
             this.toolStripStatusLabel2});
-            this.statusStrip.Location = new System.Drawing.Point(0, 640);
+            this.statusStrip.Location = new System.Drawing.Point(0, 637);
             this.statusStrip.Name = "statusStrip";
-            this.statusStrip.Size = new System.Drawing.Size(1058, 22);
+            this.statusStrip.Size = new System.Drawing.Size(1157, 22);
             this.statusStrip.TabIndex = 1;
             this.statusStrip.Text = "statusStrip1";
             // 
@@ -131,7 +144,7 @@
             // 
             this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.InactiveCaption;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1014, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1113, 17);
             this.toolStripStatusLabel2.Spring = true;
             this.toolStripStatusLabel2.Text = "『=DoDo=』";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -173,76 +186,75 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.imageListView);
-            this.splitContainer1.Panel1.Controls.Add(this.propertyGridEx);
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.MainMap);
-            this.splitContainer1.Size = new System.Drawing.Size(1058, 616);
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Size = new System.Drawing.Size(1157, 613);
             this.splitContainer1.SplitterDistance = 238;
             this.splitContainer1.TabIndex = 2;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.MainMap);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.dataGridViewPano);
+            this.splitContainer2.Size = new System.Drawing.Size(915, 613);
+            this.splitContainer2.SplitterDistance = 429;
+            this.splitContainer2.TabIndex = 3;
+            // 
+            // dataGridViewPano
+            // 
+            this.dataGridViewPano.AllowUserToAddRows = false;
+            this.dataGridViewPano.AllowUserToDeleteRows = false;
+            this.dataGridViewPano.AllowUserToOrderColumns = true;
+            this.dataGridViewPano.AllowUserToResizeRows = false;
+            this.dataGridViewPano.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPano.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewPano.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewPano.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ColumnName,
+            this.ColumnCategory,
+            this.ColumnLat,
+            this.ColumnLng,
+            this.ColumnDate,
+            this.ColumnHeading,
+            this.ColumnDes,
+            this.ColumnInfo,
+            this.ColumnFile});
+            this.dataGridViewPano.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPano.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewPano.Name = "dataGridViewPano";
+            this.dataGridViewPano.ReadOnly = true;
+            this.dataGridViewPano.RowHeadersVisible = false;
+            this.dataGridViewPano.RowTemplate.Height = 23;
+            this.dataGridViewPano.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewPano.Size = new System.Drawing.Size(915, 180);
+            this.dataGridViewPano.TabIndex = 2;
             // 
             // imageListView
             // 
             this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Location = new System.Drawing.Point(0, 284);
+            this.imageListView.Location = new System.Drawing.Point(0, 0);
             this.imageListView.Name = "imageListView";
             this.imageListView.PersistentCacheDirectory = "";
             this.imageListView.PersistentCacheSize = ((long)(100));
-            this.imageListView.Size = new System.Drawing.Size(238, 332);
+            this.imageListView.Size = new System.Drawing.Size(238, 613);
             this.imageListView.TabIndex = 1;
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
             this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView_KeyDown);
-            // 
-            // propertyGridEx
-            // 
-            // 
-            // 
-            // 
-            this.propertyGridEx.DocCommentDescription.AutoEllipsis = true;
-            this.propertyGridEx.DocCommentDescription.Cursor = System.Windows.Forms.Cursors.Default;
-            this.propertyGridEx.DocCommentDescription.Location = new System.Drawing.Point(3, 19);
-            this.propertyGridEx.DocCommentDescription.Name = "";
-            this.propertyGridEx.DocCommentDescription.Size = new System.Drawing.Size(0, 52);
-            this.propertyGridEx.DocCommentDescription.TabIndex = 1;
-            this.propertyGridEx.DocCommentImage = null;
-            // 
-            // 
-            // 
-            this.propertyGridEx.DocCommentTitle.Cursor = System.Windows.Forms.Cursors.Default;
-            this.propertyGridEx.DocCommentTitle.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold);
-            this.propertyGridEx.DocCommentTitle.Location = new System.Drawing.Point(3, 3);
-            this.propertyGridEx.DocCommentTitle.Name = "";
-            this.propertyGridEx.DocCommentTitle.Size = new System.Drawing.Size(0, 0);
-            this.propertyGridEx.DocCommentTitle.TabIndex = 0;
-            this.propertyGridEx.DocCommentTitle.UseMnemonic = false;
-            this.propertyGridEx.Dock = System.Windows.Forms.DockStyle.Top;
-            this.propertyGridEx.HelpVisible = false;
-            this.propertyGridEx.Location = new System.Drawing.Point(0, 0);
-            this.propertyGridEx.Name = "propertyGridEx";
-            this.propertyGridEx.Size = new System.Drawing.Size(238, 284);
-            this.propertyGridEx.TabIndex = 0;
-            this.propertyGridEx.ToolbarVisible = false;
-            // 
-            // 
-            // 
-            this.propertyGridEx.ToolStrip.AccessibleName = "工具栏";
-            this.propertyGridEx.ToolStrip.AccessibleRole = System.Windows.Forms.AccessibleRole.ToolBar;
-            this.propertyGridEx.ToolStrip.AllowMerge = false;
-            this.propertyGridEx.ToolStrip.AutoSize = false;
-            this.propertyGridEx.ToolStrip.CanOverflow = false;
-            this.propertyGridEx.ToolStrip.Dock = System.Windows.Forms.DockStyle.None;
-            this.propertyGridEx.ToolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
-            this.propertyGridEx.ToolStrip.Location = new System.Drawing.Point(0, 1);
-            this.propertyGridEx.ToolStrip.Name = "";
-            this.propertyGridEx.ToolStrip.Padding = new System.Windows.Forms.Padding(2, 0, 1, 0);
-            this.propertyGridEx.ToolStrip.Size = new System.Drawing.Size(215, 25);
-            this.propertyGridEx.ToolStrip.TabIndex = 1;
-            this.propertyGridEx.ToolStrip.TabStop = true;
-            this.propertyGridEx.ToolStrip.Text = "PropertyGridToolBar";
-            this.propertyGridEx.ToolStrip.Visible = false;
             // 
             // MainMap
             // 
@@ -266,15 +278,87 @@
             this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.MainMap.ShowTileGridLines = false;
-            this.MainMap.Size = new System.Drawing.Size(816, 616);
+            this.MainMap.Size = new System.Drawing.Size(915, 429);
             this.MainMap.TabIndex = 0;
             this.MainMap.Zoom = 0D;
+            // 
+            // ColumnName
+            // 
+            this.ColumnName.DataPropertyName = "PanoName";
+            this.ColumnName.FillWeight = 20F;
+            this.ColumnName.HeaderText = "全景名称";
+            this.ColumnName.Name = "ColumnName";
+            this.ColumnName.ReadOnly = true;
+            // 
+            // ColumnCategory
+            // 
+            this.ColumnCategory.DataPropertyName = "category";
+            this.ColumnCategory.FillWeight = 8F;
+            this.ColumnCategory.HeaderText = "分类";
+            this.ColumnCategory.Name = "ColumnCategory";
+            this.ColumnCategory.ReadOnly = true;
+            // 
+            // ColumnLat
+            // 
+            this.ColumnLat.DataPropertyName = "PanoLat";
+            this.ColumnLat.FillWeight = 15F;
+            this.ColumnLat.HeaderText = "纬度";
+            this.ColumnLat.Name = "ColumnLat";
+            this.ColumnLat.ReadOnly = true;
+            // 
+            // ColumnLng
+            // 
+            this.ColumnLng.DataPropertyName = "lng";
+            this.ColumnLng.FillWeight = 15F;
+            this.ColumnLng.HeaderText = "经度";
+            this.ColumnLng.Name = "ColumnLng";
+            this.ColumnLng.ReadOnly = true;
+            // 
+            // ColumnDate
+            // 
+            this.ColumnDate.DataPropertyName = "date";
+            this.ColumnDate.FillWeight = 10F;
+            this.ColumnDate.HeaderText = "日期";
+            this.ColumnDate.Name = "ColumnDate";
+            this.ColumnDate.ReadOnly = true;
+            // 
+            // ColumnHeading
+            // 
+            this.ColumnHeading.DataPropertyName = "heading";
+            this.ColumnHeading.FillWeight = 7F;
+            this.ColumnHeading.HeaderText = "角度";
+            this.ColumnHeading.Name = "ColumnHeading";
+            this.ColumnHeading.ReadOnly = true;
+            // 
+            // ColumnDes
+            // 
+            this.ColumnDes.DataPropertyName = "describe";
+            this.ColumnDes.FillWeight = 15F;
+            this.ColumnDes.HeaderText = "描述";
+            this.ColumnDes.Name = "ColumnDes";
+            this.ColumnDes.ReadOnly = true;
+            // 
+            // ColumnInfo
+            // 
+            this.ColumnInfo.DataPropertyName = "info";
+            this.ColumnInfo.FillWeight = 20F;
+            this.ColumnInfo.HeaderText = "信息";
+            this.ColumnInfo.Name = "ColumnInfo";
+            this.ColumnInfo.ReadOnly = true;
+            // 
+            // ColumnFile
+            // 
+            this.ColumnFile.DataPropertyName = "file";
+            this.ColumnFile.HeaderText = "文件";
+            this.ColumnFile.Name = "ColumnFile";
+            this.ColumnFile.ReadOnly = true;
+            this.ColumnFile.Visible = false;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1058, 662);
+            this.ClientSize = new System.Drawing.Size(1157, 659);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
@@ -289,6 +373,10 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -311,8 +399,18 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSubmit;
         private Map MainMap;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private PropertyGridEx propertyGridEx;
         private PanoClient.ImageListView.ImageListView imageListView;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.DataGridView dataGridViewPano;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnCategory;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnLng;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnHeading;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnDes;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnInfo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ColumnFile;
     }
 }
 

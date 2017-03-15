@@ -330,7 +330,9 @@ namespace PanoClient
         {
             ImageListViewItem sel = null;
             if (imageListView.SelectedItems.Count > 0) sel = imageListView.SelectedItems[0];
-            propertyGridEx.SelectedObject = sel;
+            //propertyGridEx.SelectedObject = sel;
+            //dataGridViewPano.DataSource = sel;
+            //dataGridViewPano.Refresh();
 
             // 地图上定位坐标
             _markers.Markers.Clear();

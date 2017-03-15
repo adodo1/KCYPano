@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace PanoClient
@@ -10,122 +13,80 @@ namespace PanoClient
     public class WCFClient
     {
         string baseurl = "http://localhost:8987/Service.svc";
-        WebClient client = new WebClient();
+
 
         public void test()
         {
-            //string param = "{\"uid\":\"246534824\",\"sid\":\"906508525\",\"choice\":\"yes\",\"a\":\"GenerateQuestionHandler\",\"questfd\":\"0\"}";
-            //Encoding myEncode = Encoding.GetEncoding("UTF-8");
-            //byte[] postBytes = Encoding.UTF8.GetBytes(param);
-            //HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create("http://localhost:8987/Service.svc/Speak");
-            //req.Method = "POST";
-            //req.ContentType = "application/json;charset=UTF-8";
-            //req.ContentLength = postBytes.Length;
-            //try {
-            //    using (Stream reqStream = req.GetRequestStream()) {
-            //        reqStream.Write(postBytes, 0, postBytes.Length);
-            //    }
-            //    using (WebResponse res = req.GetResponse()) {
-            //        using (StreamReader sr = new StreamReader(res.GetResponseStream(), myEncode)) {
-            //            string strResult = sr.ReadToEnd();
-                        
-            //        }
-            //    }
-            //}
-            //catch (WebException ex) {
-            //    //return "无法连接到服务器\r\n错误信息：" + ex.Message;
-            //}
+            using (HttpClient client = new HttpClient()) {
+                //设定要响应的数据格式 text/json 或者 text/xml
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/json"));
+                // 表明是通过multipart/form-data的方式上传数据
+                using (var content = new MultipartFormDataContent()) {
+                    // 
+                    NameValueCollection vars = new NameValueCollection();
+                    vars.Add("name1", "value1");
+                    vars.Add("name2", "value2");
+                    NameValueCollection files = new NameValueCollection();
+                    files.Add("filedata", "d:\\temp\\panos.db");
 
 
+                    var formDatas = GetFormDataByteArrayContent(vars);     //获取键值集合对应的ByteArrayContent集合
+                    var formFiles = GetFileByteArrayContent(files);            //获取文件集合对应的ByteArrayContent集合
 
-            //var client = new WcfClient.Service.Service1Client();
-            //using (var file = File.OpenRead(@"R:\client\1.jpg")) {
-            //    client.UploadFile(file);
-            //}
-            //Console.WriteLine("finished");
-
-
-
-            //Dim binding As BasicHttpBinding = New BasicHttpBinding()
- 
-            //Dim address As New EndpointAddress(New Uri(Application.Current.Host.Source, "你的SVC地址"))
- 
-            //Dim client As New DataServiceClient(binding, address)
-            //AddHandler client.GetValuesCompleted, AddressOf client_GetValuesCompleted
-            //        client.GetValuesAsync(ID)
-
-
-            //ServiceClient client = new ServiceClient("http://localhost:8987/Service.svc?");
-            //using (var file = File.OpenRead(@"d:\\temp\\1.json")) {
-            //    string result = client.Speak(file);
-            //}
-            //client.Close();
-
-            //ServiceReference.ServiceClient client = new ServiceReference.ServiceClient("http://localhost:8987/Service.svc/Speak");
-            //using (var file = File.OpenRead(@"d:\\temp\\1.json")) {
-            //    string result = client.Speak(file);
-            //}
-            //client.Close();
-
-            //var httpClient = new HttpClient();
-            //var strPostUrl = "http://localhost:8987/Service.svc/Speak";
-            //FileStream fs = new FileStream("d:\\temp\\1.json", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            //Task<HttpResponseMessage> response = httpClient.PostAsync(strPostUrl, new StreamContent(fs));
-            //fs.Dispose();
-            //Console.WriteLine("上传成功");
-
-            //4.0才有
-            //MultipartFormDataContent
-
-            WebClient cc = new WebClient();
-            byte[] rrr = cc.UploadData("http://localhost:8987/Service.svc/Speak?name=abc", new byte[] { 97, 98 });
-
-            byte[] eee = cc.UploadFile("http://localhost:8987/Service.svc/Speak?name=abc", "d:\\temp\\1.json");
-            //byte[] result = cc.UploadFile("http://localhost:8987/Service.svc/Speak", "D:\\TEMP\\1.json");
-
-
-            WebClient webClient = new WebClient();
-            //webClient.Headers.Add("Content-Type", "multipart/form-data; boundary=" + "aa");
-
-            byte[] responseBytes;
-            byte[] bytes = new byte[] { 243, 98, 99 };
-
-
-            string data = @"a/b/\c\d\:'{}'~#@$%^&*()-_+=";
-            string newurl = string.Format("http://localhost:8987/Service.svc/Speak?name={0}", System.Web.HttpUtility.UrlEncode(data));
-
-            responseBytes = webClient.UploadData(newurl, bytes);
-            string responseText = System.Text.Encoding.UTF8.GetString(responseBytes);
-            Console.Write(responseText);
-
-
-            try {
-                string strPost = "中文";
-                byte[] buffer = Encoding.UTF8.GetBytes(strPost);
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create("http://localhost:8987/Service.svc/Speak");
-                request.Method = "POST";
-                request.ContentType = "text/plain";
-
-                request.ContentLength = buffer.Length;
-                Stream requestStram = request.GetRequestStream();
-                requestStram.Write(buffer, 0, buffer.Length);
-                requestStram.Close();
-
-                Stream getStream = request.GetResponse().GetResponseStream();
-
-                byte[] resultByte = new byte[200];
-                getStream.Read(resultByte, 0, resultByte.Length);
-
-                Console.WriteLine(Encoding.UTF8.GetString(resultByte));
+                    // 声明一个委托，该委托的作用就是将ByteArrayContent集合加入到MultipartFormDataContent中
+                    Action<List<ByteArrayContent>> act = (dataContents) => {
+                        foreach (var byteArrayContent in dataContents) {
+                            content.Add(byteArrayContent);
+                        }
+                    };
+                    act(formDatas);     // 执行act
+                    act(formFiles);     // 执行act
+                    try {
+                        var result = client.PostAsync("url", content).Result;   // post请求
+                        var html = result.Content.ReadAsStringAsync().Result;   // 将响应结果显示在文本框内
+                    }
+                    catch (Exception ex)
+                    {
+                        string result = ex.ToString();//将异常信息显示在文本框内
+                    }
+                }
             }
-            catch (Exception ex) {
-                Console.WriteLine(ex.ToString());
+        }
+        /// <summary>
+        /// 获取文件集合对应的ByteArrayContent集合
+        /// </summary>
+        /// <param name="files"></param>
+        /// <returns></returns>
+        private List<ByteArrayContent> GetFileByteArrayContent(NameValueCollection files)
+        {
+            List<ByteArrayContent> list = new List<ByteArrayContent>();
+            foreach (string name in files) {
+                string file = files[name];
+                var fileContent = new ByteArrayContent(File.ReadAllBytes(file));
+                fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
+                    FileName = Path.GetFileName(file),
+                    Name = name
+                };
+                list.Add(fileContent);
             }
-            Console.ReadLine();
-
-
-
-
+            return list;
+        }
+        /// <summary>
+        /// 获取键值集合对应的ByteArrayContent集合
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        private List<ByteArrayContent> GetFormDataByteArrayContent(NameValueCollection collection)
+        {
+            List<ByteArrayContent> list = new List<ByteArrayContent>();
+            foreach (var key in collection.AllKeys) {
+                var dataContent = new ByteArrayContent(Encoding.UTF8.GetBytes(collection[key]));
+                dataContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment") {
+                    Name = key
+                };
+                list.Add(dataContent);
+            }
+            return list;
         }
 
 
