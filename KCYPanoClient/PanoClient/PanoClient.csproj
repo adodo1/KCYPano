@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>main.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="GMap.NET.Core">
       <HintPath>dll\GMap.NET.Core.dll</HintPath>
@@ -253,6 +256,7 @@
     <Content Include="ImageListView\Resources\RatingImage.png" />
     <Content Include="ImageListView\Resources\SortAscending.png" />
     <Content Include="ImageListView\Resources\SortDescending.png" />
+    <Content Include="main.ico" />
     <EmbeddedResource Include="Resources\mouse.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

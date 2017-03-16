@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLoadIMG = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,14 +43,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.imageListView = new PanoClient.ImageListView.ImageListView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.dataGridViewPano = new System.Windows.Forms.DataGridView();
+            this.MainMap = new PanoClient.Map();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.dataGridViewPano = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox = new System.Windows.Forms.RichTextBox();
-            this.imageListView = new PanoClient.ImageListView.ImageListView();
-            this.MainMap = new PanoClient.Map();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -60,9 +61,9 @@
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).BeginInit();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).BeginInit();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -194,6 +195,20 @@
             this.splitContainer1.SplitterDistance = 238;
             this.splitContainer1.TabIndex = 2;
             // 
+            // imageListView
+            // 
+            this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.imageListView.Location = new System.Drawing.Point(0, 0);
+            this.imageListView.Name = "imageListView";
+            this.imageListView.PersistentCacheDirectory = "";
+            this.imageListView.PersistentCacheSize = ((long)(100));
+            this.imageListView.Size = new System.Drawing.Size(238, 613);
+            this.imageListView.TabIndex = 1;
+            this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
+            this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView_KeyDown);
+            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -212,79 +227,6 @@
             this.splitContainer2.Size = new System.Drawing.Size(915, 613);
             this.splitContainer2.SplitterDistance = 429;
             this.splitContainer2.TabIndex = 3;
-            // 
-            // dataGridViewPano
-            // 
-            this.dataGridViewPano.AllowUserToAddRows = false;
-            this.dataGridViewPano.AllowUserToDeleteRows = false;
-            this.dataGridViewPano.AllowUserToOrderColumns = true;
-            this.dataGridViewPano.AllowUserToResizeRows = false;
-            this.dataGridViewPano.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dataGridViewPano.BackgroundColor = System.Drawing.SystemColors.Window;
-            this.dataGridViewPano.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dataGridViewPano.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewPano.Location = new System.Drawing.Point(3, 3);
-            this.dataGridViewPano.Name = "dataGridViewPano";
-            this.dataGridViewPano.RowHeadersVisible = false;
-            this.dataGridViewPano.RowTemplate.Height = 23;
-            this.dataGridViewPano.Size = new System.Drawing.Size(901, 148);
-            this.dataGridViewPano.TabIndex = 2;
-            // 
-            // tabControl
-            // 
-            this.tabControl.Controls.Add(this.tabPage1);
-            this.tabControl.Controls.Add(this.tabPage2);
-            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 0);
-            this.tabControl.Name = "tabControl";
-            this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(915, 180);
-            this.tabControl.TabIndex = 0;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.dataGridViewPano);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(907, 154);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "设置";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.richTextBox);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(907, 154);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "日志";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // richTextBox
-            // 
-            this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox.Name = "richTextBox";
-            this.richTextBox.Size = new System.Drawing.Size(901, 148);
-            this.richTextBox.TabIndex = 0;
-            this.richTextBox.Text = "";
-            // 
-            // imageListView
-            // 
-            this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Location = new System.Drawing.Point(0, 0);
-            this.imageListView.Name = "imageListView";
-            this.imageListView.PersistentCacheDirectory = "";
-            this.imageListView.PersistentCacheSize = ((long)(100));
-            this.imageListView.Size = new System.Drawing.Size(238, 613);
-            this.imageListView.TabIndex = 1;
-            this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
-            this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView_KeyDown);
             // 
             // MainMap
             // 
@@ -312,6 +254,65 @@
             this.MainMap.TabIndex = 0;
             this.MainMap.Zoom = 0D;
             // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPage1);
+            this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(915, 180);
+            this.tabControl.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dataGridViewPano);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(907, 154);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "设置";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dataGridViewPano
+            // 
+            this.dataGridViewPano.AllowUserToAddRows = false;
+            this.dataGridViewPano.AllowUserToDeleteRows = false;
+            this.dataGridViewPano.AllowUserToOrderColumns = true;
+            this.dataGridViewPano.AllowUserToResizeRows = false;
+            this.dataGridViewPano.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGridViewPano.BackgroundColor = System.Drawing.SystemColors.Window;
+            this.dataGridViewPano.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.dataGridViewPano.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewPano.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewPano.Name = "dataGridViewPano";
+            this.dataGridViewPano.RowHeadersVisible = false;
+            this.dataGridViewPano.RowTemplate.Height = 23;
+            this.dataGridViewPano.Size = new System.Drawing.Size(901, 148);
+            this.dataGridViewPano.TabIndex = 2;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.richTextBox);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(907, 154);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "日志";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox
+            // 
+            this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox.Name = "richTextBox";
+            this.richTextBox.Size = new System.Drawing.Size(901, 148);
+            this.richTextBox.TabIndex = 0;
+            this.richTextBox.Text = "";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -320,6 +321,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -337,9 +339,9 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).EndInit();
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
