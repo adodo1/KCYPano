@@ -29,6 +29,19 @@ namespace KCYPano.Controllers
             return View();
         }
         /// <summary>
+        /// 注册全景工具
+        /// </summary>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult Register()
+        {
+            string toolfile = Server.MapPath(PANO_TOOL_EXE);
+            PanoMaker maker = new PanoMaker();
+            bool success = maker.Register(toolfile);
+            if (success) return Json(new { code = 0, message = "注册成功." }, JsonRequestBehavior.AllowGet);
+            else return Json(new { code = 101, message = "注册失败." }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
         /// 查看全景
         /// </summary>
         /// <param name="uid">全景ID</param>
@@ -48,7 +61,6 @@ namespace KCYPano.Controllers
             return View();
             
         }
-
         /// <summary>
         /// 上传全景图片
         /// </summary>
