@@ -3,6 +3,7 @@ using GMap.NET.MapProviders;
 using GMap.NET.Projections;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 
@@ -71,6 +72,6 @@ namespace PanoClient
             return url;
         }
 
-        static readonly string UrlFormat = "http://mt1.google.cn/vt/lyrs=s&hl=en&x={0}&y={1}&z={2}";
+        static readonly string UrlFormat = ConfigurationManager.AppSettings["mapurl"];
     }
 }

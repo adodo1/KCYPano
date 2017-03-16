@@ -44,6 +44,10 @@
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dataGridViewPano = new System.Windows.Forms.DataGridView();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.richTextBox = new System.Windows.Forms.RichTextBox();
             this.imageListView = new PanoClient.ImageListView.ImageListView();
             this.MainMap = new PanoClient.Map();
             this.menuStrip.SuspendLayout();
@@ -57,6 +61,9 @@
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).BeginInit();
+            this.tabControl.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -67,7 +74,7 @@
             this.toolStripMenuItemAbout});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(1157, 25);
+            this.menuStrip.Size = new System.Drawing.Size(1157, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -77,20 +84,20 @@
             this.toolStripMenuItemLoadIMG,
             this.toolStripMenuItemLoadCoor});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
-            this.toolStripMenuItemFile.Size = new System.Drawing.Size(58, 21);
+            this.toolStripMenuItemFile.Size = new System.Drawing.Size(59, 20);
             this.toolStripMenuItemFile.Text = "文件(&F)";
             // 
             // toolStripMenuItemLoadIMG
             // 
             this.toolStripMenuItemLoadIMG.Name = "toolStripMenuItemLoadIMG";
-            this.toolStripMenuItemLoadIMG.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItemLoadIMG.Size = new System.Drawing.Size(142, 22);
             this.toolStripMenuItemLoadIMG.Text = "加载全景图";
             this.toolStripMenuItemLoadIMG.Click += new System.EventHandler(this.toolStripMenuItemLoadIMG_Click);
             // 
             // toolStripMenuItemLoadCoor
             // 
             this.toolStripMenuItemLoadCoor.Name = "toolStripMenuItemLoadCoor";
-            this.toolStripMenuItemLoadCoor.Size = new System.Drawing.Size(148, 22);
+            this.toolStripMenuItemLoadCoor.Size = new System.Drawing.Size(142, 22);
             this.toolStripMenuItemLoadCoor.Text = "批量导入坐标";
             this.toolStripMenuItemLoadCoor.Click += new System.EventHandler(this.toolStripMenuItemLoadCoor_Click);
             // 
@@ -99,20 +106,20 @@
             this.工具TToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemSubmit});
             this.工具TToolStripMenuItem.Name = "工具TToolStripMenuItem";
-            this.工具TToolStripMenuItem.Size = new System.Drawing.Size(59, 21);
+            this.工具TToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
             this.工具TToolStripMenuItem.Text = "工具(&T)";
             // 
             // toolStripMenuItemSubmit
             // 
             this.toolStripMenuItemSubmit.Name = "toolStripMenuItemSubmit";
-            this.toolStripMenuItemSubmit.Size = new System.Drawing.Size(100, 22);
+            this.toolStripMenuItemSubmit.Size = new System.Drawing.Size(94, 22);
             this.toolStripMenuItemSubmit.Text = "提交";
             this.toolStripMenuItemSubmit.Click += new System.EventHandler(this.toolStripMenuItemSubmit_Click);
             // 
             // toolStripMenuItemAbout
             // 
             this.toolStripMenuItemAbout.Name = "toolStripMenuItemAbout";
-            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(60, 21);
+            this.toolStripMenuItemAbout.Size = new System.Drawing.Size(59, 20);
             this.toolStripMenuItemAbout.Text = "关于(&A)";
             this.toolStripMenuItemAbout.Click += new System.EventHandler(this.toolStripMenuItemAbout_Click);
             // 
@@ -130,14 +137,14 @@
             // toolStripStatusLabelInfo
             // 
             this.toolStripStatusLabelInfo.Name = "toolStripStatusLabelInfo";
-            this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(32, 17);
+            this.toolStripStatusLabelInfo.Size = new System.Drawing.Size(29, 17);
             this.toolStripStatusLabelInfo.Text = "就绪";
             // 
             // toolStripStatusLabel2
             // 
             this.toolStripStatusLabel2.ForeColor = System.Drawing.SystemColors.InactiveCaption;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1110, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(1113, 17);
             this.toolStripStatusLabel2.Spring = true;
             this.toolStripStatusLabel2.Text = "『=DoDo=』";
             this.toolStripStatusLabel2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -173,7 +180,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 25);
+            this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -183,7 +190,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1157, 612);
+            this.splitContainer1.Size = new System.Drawing.Size(1157, 613);
             this.splitContainer1.SplitterDistance = 238;
             this.splitContainer1.TabIndex = 2;
             // 
@@ -201,9 +208,9 @@
             // 
             // splitContainer2.Panel2
             // 
-            this.splitContainer2.Panel2.Controls.Add(this.dataGridViewPano);
-            this.splitContainer2.Size = new System.Drawing.Size(915, 612);
-            this.splitContainer2.SplitterDistance = 428;
+            this.splitContainer2.Panel2.Controls.Add(this.tabControl);
+            this.splitContainer2.Size = new System.Drawing.Size(915, 613);
+            this.splitContainer2.SplitterDistance = 429;
             this.splitContainer2.TabIndex = 3;
             // 
             // dataGridViewPano
@@ -216,12 +223,54 @@
             this.dataGridViewPano.BackgroundColor = System.Drawing.SystemColors.Window;
             this.dataGridViewPano.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridViewPano.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewPano.Location = new System.Drawing.Point(0, 0);
+            this.dataGridViewPano.Location = new System.Drawing.Point(3, 3);
             this.dataGridViewPano.Name = "dataGridViewPano";
             this.dataGridViewPano.RowHeadersVisible = false;
             this.dataGridViewPano.RowTemplate.Height = 23;
-            this.dataGridViewPano.Size = new System.Drawing.Size(915, 180);
+            this.dataGridViewPano.Size = new System.Drawing.Size(901, 148);
             this.dataGridViewPano.TabIndex = 2;
+            // 
+            // tabControl
+            // 
+            this.tabControl.Controls.Add(this.tabPage1);
+            this.tabControl.Controls.Add(this.tabPage2);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(915, 180);
+            this.tabControl.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.dataGridViewPano);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(907, 154);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "设置";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.richTextBox);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(907, 154);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "日志";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // richTextBox
+            // 
+            this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox.Name = "richTextBox";
+            this.richTextBox.Size = new System.Drawing.Size(901, 148);
+            this.richTextBox.TabIndex = 0;
+            this.richTextBox.Text = "";
             // 
             // imageListView
             // 
@@ -232,7 +281,7 @@
             this.imageListView.Name = "imageListView";
             this.imageListView.PersistentCacheDirectory = "";
             this.imageListView.PersistentCacheSize = ((long)(100));
-            this.imageListView.Size = new System.Drawing.Size(238, 612);
+            this.imageListView.Size = new System.Drawing.Size(238, 613);
             this.imageListView.TabIndex = 1;
             this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
             this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView_KeyDown);
@@ -259,7 +308,7 @@
             this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.MainMap.ShowTileGridLines = false;
-            this.MainMap.Size = new System.Drawing.Size(915, 428);
+            this.MainMap.Size = new System.Drawing.Size(915, 429);
             this.MainMap.TabIndex = 0;
             this.MainMap.Zoom = 0D;
             // 
@@ -275,6 +324,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "全景客户端";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             this.statusStrip.ResumeLayout(false);
@@ -288,6 +338,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPano)).EndInit();
+            this.tabControl.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -313,6 +366,10 @@
         private PanoClient.ImageListView.ImageListView imageListView;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private System.Windows.Forms.DataGridView dataGridViewPano;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.RichTextBox richTextBox;
     }
 }
 

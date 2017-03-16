@@ -11,14 +11,10 @@ namespace PanoClient
 {
     public partial class LoadCoorForm : Form
     {
-        private DataTable _coorsTable = null;
-
-        public LoadCoorForm(DataTable coorsTable)
+        public List<double[]> Coors = new List<double[]>();
+        public LoadCoorForm()
         {
             InitializeComponent();
-
-            _coorsTable = coorsTable;
-            dataGridViewCoor.DataSource = _coorsTable;
         }
         /// <summary>
         /// 
@@ -41,28 +37,11 @@ namespace PanoClient
             }
         }
         /// <summary>
-        /// 确定
-        /// </summary>
-        private void buttonOK_Click(object sender, EventArgs e)
-        {
-
-
-            this.DialogResult = System.Windows.Forms.DialogResult.OK;
-        }
-        /// <summary>
         /// 取消
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Close();
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void textBoxCoor_Validated(object sender, EventArgs e)
-        {
-
         }
         /// <summary>
         /// 导入坐标
@@ -71,15 +50,16 @@ namespace PanoClient
         {
             if (textBoxCoor.Text.Contains("24.3063861947961") ||
                 textBoxCoor.Text.Trim() == "") return;
-
-            UpdateTable(textBoxCoor.Text);
+            Coors = GetCoors(textBoxCoor.Text);
+            this.DialogResult = System.Windows.Forms.DialogResult.OK;
         }
         /// <summary>
-        /// 更新坐标到对应的图片中
+        /// 解析坐标组
         /// </summary>
         /// <param name="text"></param>
-        private void UpdateTable(string text)
+        private List<double[]> GetCoors(string text)
         {
+            List<double[]> result = new List<double[]>();
             text = text.Replace("\r", "");
             string[] lines = text.Split('\n');
             for (int i = 0; i < lines.Length; i++) {
@@ -88,7 +68,7 @@ namespace PanoClient
                 string[] vars = line.Split('\t');
                 double lat = 0;
                 double lng = 0;
-
+                // 
                 foreach (string v in vars) {
                     double d = 0;
                     if (double.TryParse(v, out d) == false) continue;
@@ -96,14 +76,10 @@ namespace PanoClient
                     if (0 <= d && d <= 90) lat = d;                 // 纬度
                     else if (100 <= d && d <= 180) lng = d;         // 经度
                 }
-
                 if (lat == 0 || lng == 0) continue;
-                if (_coorsTable.Rows.Count <= i) continue;
-                _coorsTable.Rows[i]["lat"] = lat;
-                _coorsTable.Rows[i]["lng"] = lng;
+                result.Add(new double[] { lat, lng });
             }
-
-            dataGridViewCoor.Update();
+            return result;
         }
     }
 }

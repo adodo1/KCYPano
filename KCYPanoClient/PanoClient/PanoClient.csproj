@@ -41,12 +41,17 @@
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -141,9 +146,7 @@
     <Compile Include="ImageListView\ImageListViewRenderers.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ImageListView\ImageListViewResources.de.Designer.cs" />
     <Compile Include="ImageListView\ImageListViewResources.Designer.cs" />
-    <Compile Include="ImageListView\ImageListViewResources.tr.Designer.cs" />
     <Compile Include="ImageListView\ImageListViewSelectedItemCollection.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -174,6 +177,7 @@
     <Compile Include="ImageListView\Utility.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Json.cs" />
     <Compile Include="LoadCoorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,9 +216,7 @@
       <DependentUpon>CheckForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ImageListView\ImageListView.bmp" />
-    <EmbeddedResource Include="ImageListView\ImageListViewResources.de.resx" />
     <EmbeddedResource Include="ImageListView\ImageListViewResources.resx" />
-    <EmbeddedResource Include="ImageListView\ImageListViewResources.tr.resx" />
     <EmbeddedResource Include="ImageListView\QueuedBackgroundWorker.bmp" />
     <EmbeddedResource Include="LoadCoorForm.resx">
       <DependentUpon>LoadCoorForm.cs</DependentUpon>
@@ -232,6 +234,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

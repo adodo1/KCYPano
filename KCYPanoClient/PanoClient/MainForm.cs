@@ -19,6 +19,7 @@ namespace PanoClient
     {
         private GMapMarker _curentMarker = null;
         public readonly GMapOverlay _markers = new GMapOverlay("markers");  // 单张照片
+        private BackgroundWorker _worker;
 
         public MainForm()
         {
@@ -31,7 +32,8 @@ namespace PanoClient
             dataGridViewPano.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             //设置自动调整高度
             dataGridViewPano.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridViewPano.Cursor = new Cursor(GetType(), "Resources.mouse.cur"); 
+            dataGridViewPano.Cursor = new Cursor(GetType(), "Resources.mouse.cur");
+            _worker = new BackgroundWorker();
         }
         /// <summary>
         /// 
@@ -139,7 +141,6 @@ namespace PanoClient
         /// <summary>
         /// 刷新经纬度坐标
         /// </summary>
-        /// <param name="e"></param>
         private void UpdateCoordinateInfo(double? lat, double? lng, double? zoom)
         {
             if (lat != null) _lastlat = (double)lat;
@@ -147,7 +148,6 @@ namespace PanoClient
             if (zoom != null) _lastzoom = (int)zoom;
             toolStripStatusLabelInfo.Text = string.Format("经度:{0:0.000000} 纬度:{1:0.000000} 级别:{2}", _lastlng, _lastlat, _lastzoom);
         }
-
 
         #region 鼠标控制
         private bool _isMouseDraging = false;       // 鼠标是否正在拖动
@@ -235,6 +235,7 @@ namespace PanoClient
             }
             dataGridViewPano.DataSource = null;
             dataGridViewPano.DataSource = imageListView.Items;
+            //((DataGridViewComboBoxColumn)dataGridViewPano.Columns["PanoCategory"]).DataSource = new string[] { "11", "22", "33" };
             dataGridViewPano.Refresh();
         }
         /// <summary>
@@ -242,94 +243,132 @@ namespace PanoClient
         /// </summary>
         private void toolStripMenuItemLoadCoor_Click(object sender, EventArgs e)
         {
-            // 创建表格
-            DataTable table = new DataTable("coors");
-            table.Columns.Add("name", typeof(string));
-            table.Columns.Add("lat", typeof(double));
-            table.Columns.Add("lng", typeof(double));
-            table.Columns.Add("file", typeof(string));
-            // 填数据
-            foreach (ImageListViewItem item in imageListView.Items) {
-                DataRow row = table.NewRow();
-                row["name"] = item.PanoName;
-                row["lat"] = item.PanoLat;
-                row["lng"] = item.PanoLng;
-                row["file"] = item.FileName;
-                table.Rows.Add(row);
-            }
             // 导入坐标
-            LoadCoorForm form = new LoadCoorForm(table);
+            LoadCoorForm form = new LoadCoorForm();
             if (DialogResult.OK != form.ShowDialog(this)) return;
-            // 更新表格
-            foreach (ImageListViewItem item in imageListView.Items) {
-                string file = item.FileName;
-                foreach (DataRow row in table.Rows) {
-                    string fname = Convert.ToString(row["file"]);
-                    double lat = Convert.ToDouble(row["lat"]);
-                    double lng = Convert.ToDouble(row["lng"]);
-                    string name = Convert.ToString(row["name"]);
-                    if (fname == file) {
-                        item.PanoName = name;
-                        item.PanoLat = lat;
-                        item.PanoLng = lng;
-                    }
+            List<double[]> coors = form.Coors;
+            // 更新坐标
+            for (int i = 0; i < imageListView.Items.Count; i++) {
+                ImageListViewItem item = imageListView.Items[i];
+                if (i < coors.Count) {
+                    item.PanoLat = coors[i][0];
+                    item.PanoLng = coors[i][1];
                 }
             }
-
+            dataGridViewPano.Refresh();
         }
         /// <summary>
         /// 提交
         /// </summary>
         private void toolStripMenuItemSubmit_Click(object sender, EventArgs e)
         {
-            DataTable table = new DataTable();
-            table.Columns.Add("name", typeof(string));
-            table.Columns.Add("category", typeof(string));      // 分类
-            table.Columns.Add("lat", typeof(double));           // 纬度
-            table.Columns.Add("lng", typeof(double));           // 经度
-            table.Columns.Add("date", typeof(DateTime));        // 日期
-            table.Columns.Add("heading", typeof(double));       // 角度
-            table.Columns.Add("describe", typeof(string));      // 描述
-            table.Columns.Add("info", typeof(string));          // 信息
-            table.Columns.Add("file", typeof(string));          // 文件
-
-            // 填数据
-            foreach (ImageListViewItem item in imageListView.Items) {
-                DataRow row = table.NewRow();
-                row["name"] = item.PanoName.Trim();
-                row["category"] = item.PanoCategory.Trim();
-                row["lat"] = item.PanoLat;
-                row["lng"] = item.PanoLng;
-                row["date"] = item.PanoDate;
-                row["heading"] = item.PanoHeading;
-                row["describe"] = item.PanoRemark;
-                row["file"] = item.FileName;
-                // 检查
-                int width = item.Dimensions.Width;
-                int height = item.Dimensions.Height;
-                string isok = "";
-                if (Convert.ToString(row["name"]) == "") isok = "未填写全景名称";
-                else if (Convert.ToString(row["category"]) == "") isok = "未设置全景分类";
-                else if (Convert.ToDouble(row["lat"]) == 0) isok = "纬度没有填写";
-                else if (Convert.ToDouble(row["lng"]) == 0) isok = "经度没有填写";
-                else if (width / height != 2.0) isok = "图片宽高比不为2:1";
-                if (isok == "") row["info"] = "通过";
-                else row["info"] = isok;
-                // 
-                table.Rows.Add(row);
+            if (DialogResult.Yes != MessageBox.Show("是否确定提交数据？", "全景提交", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) return;
+            tabControl.SelectedIndex = 1;
+            _worker = new BackgroundWorker();
+            _worker.WorkerReportsProgress = true;
+            _worker.WorkerSupportsCancellation = true;
+            _worker.ProgressChanged += new ProgressChangedEventHandler(RefreshPano);
+            _worker.DoWork += new DoWorkEventHandler(SubmmitPano);
+            _worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(FinishPano);
+            _worker.RunWorkerAsync(imageListView.Items.ToArray());
+        }
+        /// <summary>
+        /// 刷新进度
+        /// </summary>
+        private void RefreshPano(object sender, ProgressChangedEventArgs e)
+        {
+            string message = e.UserState as string;
+            if (message.Contains("失败") || message.Contains("错误")) ShowMessage(message, Color.Red);
+            else ShowMessage(message, Color.Blue);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="color"></param>
+        private void ShowMessage(string message, Color color)
+        {
+            int len = richTextBox.Text.Length;
+            if (len > 0) richTextBox.SelectionStart = len;
+            richTextBox.SelectionColor = color;
+            richTextBox.ScrollToCaret();
+            richTextBox.AppendText(message + Environment.NewLine);
+        }
+        /// <summary>
+        /// 全景提交完成
+        /// </summary>
+        private void FinishPano(object sender, RunWorkerCompletedEventArgs e)
+        {
+            richTextBox.AppendText("完成!\r\n");
+            MessageBox.Show("完成.", "全景提交", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        /// <summary>
+        /// 处理线程
+        /// </summary>
+        private void SubmmitPano(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+            if (worker.CancellationPending) {
+                e.Cancel = true;
+                return;
             }
+            try {
+                WCFClient client = new WCFClient();
+                ImageListViewItem[] items = (ImageListViewItem[])e.Argument;
+                int index = 0;
+                List<string> uids = new List<string>();
+                foreach (ImageListViewItem item in items) {
+                    if (worker.CancellationPending) {
+                        e.Cancel = true;
+                        return;
+                    }
+                    string file = item.FileName;
+                    string name = item.PanoName;
+                    string category = item.PanoCategory;
+                    long date = (item.PanoDate.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+                    int heading = item.PanoHeading;
+                    double lat = item.PanoLat;
+                    double lng = item.PanoLng;
+                    string remark = item.PanoRemark;
 
-            CheckForm form = new CheckForm(table);
-            form.ShowDialog(this);
+                    worker.ReportProgress(index, string.Format("{0} {1}/{2}: 开始上传图片: {3}.", DateTime.Now.ToString("HH:mm:ss"), ++index, items.Length, name));
+                    if (item.Dimensions.Width != item.Dimensions.Height * 2) {
+                        worker.ReportProgress(index, string.Format("{0} {1}/{2}: 图片比例不是 2:1 无法提交.", DateTime.Now.ToString("HH:mm:ss"), index, items.Length));
+                        continue;
+                    }
+                    // 上传文件
+                    string result1 = client.Add(item.FileName);
+                    object json1 = Json.JsonDeserialize<object>(result1);
+                    bool success1 = Convert.ToBoolean(((Dictionary<string, object>)json1)["success"]);
+                    string message1 = Convert.ToString(((Dictionary<string, object>)json1)["message"]);
+                    string uid = Convert.ToString(((Dictionary<string, object>)json1)["uid"]);
+                    if (success1 == true) worker.ReportProgress(index, string.Format("{0} {1}/{2}: 上传成功.", DateTime.Now.ToString("HH:mm:ss"), index, items.Length));
+                    else worker.ReportProgress(index, string.Format("{0} {1}/{2}: 上传失败: {3}", DateTime.Now.ToString("HH:mm:ss"), index, items.Length, message1));
+
+                    // 创建全景
+                    if (success1 == false) continue;
+                    worker.ReportProgress(index, string.Format("{0} {1}/{2}: 正在生成全景: {3}", DateTime.Now.ToString("HH:mm:ss"), index, items.Length, name));
+                    string result2 = client.Build(uid, name, category, date, heading, lat, lng, remark);
+                    object json2 = Json.JsonDeserialize<object>(result2);
+                    bool success2 = Convert.ToBoolean(((Dictionary<string, object>)json2)["success"]);
+                    string message2 = Convert.ToString(((Dictionary<string, object>)json2)["message"]);
+                    if (success2) uids.Add(uid);
+                    if (success2 == true) worker.ReportProgress(index, string.Format("{0} {1}/{2}: 全景生成成功: {3}.", DateTime.Now.ToString("HH:mm:ss"), index, items.Length, uid));
+                    else worker.ReportProgress(index, string.Format("{0} {1}/{2}: 全景生成失败: {3}", DateTime.Now.ToString("HH:mm:ss"), index, items.Length, message2));
+                }
+                // 全景制作完成
+                worker.ReportProgress(++index, string.Format("{0} ----------------------\r\n{1}", DateTime.Now.ToString("HH:mm:ss"), string.Join("\r\n", uids.ToArray())));
+            }
+            catch (Exception ex) {
+                MessageBox.Show(string.Format("提交全景失败！\r\n{0}\r\n{1}", ex.Message, ex.StackTrace), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                e.Cancel = true;
+            }
         }
         /// <summary>
         /// 关于
         /// </summary>
         private void toolStripMenuItemAbout_Click(object sender, EventArgs e)
         {
-            WCFClient client = new WCFClient();
-            client.test();
-
             MessageBox.Show("柳州市勘测院 -- DoDo", "(∩_∩)", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         /// <summary>
@@ -360,7 +399,7 @@ namespace PanoClient
             }
         }
         /// <summary>
-        /// 
+        /// 删除
         /// </summary>
         private void imageListView_KeyDown(object sender, KeyEventArgs e)
         {
@@ -373,6 +412,22 @@ namespace PanoClient
                     }
                     dataGridViewPano.DataSource = imageListView.Items;
                 }
+            }
+        }
+        /// <summary>
+        /// 关闭窗口
+        /// </summary>
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (_worker != null &&
+                _worker.IsBusy &&
+                _worker.WorkerSupportsCancellation &&
+                !_worker.CancellationPending) {
+                if (DialogResult.Yes == MessageBox.Show("是否终止处理？", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question)) {
+                    _worker.CancelAsync();
+                    return;
+                }
+                else { e.Cancel = true; return; }
             }
         }
 

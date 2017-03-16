@@ -410,7 +410,7 @@ namespace PanoClient.ImageListView
         private double _panoLat = 0;
         private double _panoLng = 0;
         private string _panoRemark = "";
-        private string _panoCategory = "没有分类";
+        private string _panoCategory = "高空全景";
 
         /// <summary>
         /// 全景名称.
@@ -433,7 +433,7 @@ namespace PanoClient.ImageListView
         /// <summary>
         /// 拍摄日期
         /// </summary>
-        [Category("全景属性"), Browsable(true), Description("全景日期."), DisplayName("C.日期")]
+        [Category("全景属性"), Browsable(true), Description("全景拍摄日期."), DisplayName("C.拍摄日期")]
         public DateTime PanoDate {
             get {
                 UpdateFileInfo();

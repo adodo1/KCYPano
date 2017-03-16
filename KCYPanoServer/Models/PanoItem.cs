@@ -12,11 +12,12 @@ namespace KCYPano.Models
         public string uid { get; set; }
         public string name { get; set; }
         public string category { get; set; }
-        public DateTime time { get; set; }
+        public DateTime shottime { get; set; }
         public int heading { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
         public string remark { get; set; }
+        public DateTime maketime { get; set; }
 
     }
 }

@@ -87,7 +87,7 @@ namespace KCYPano.Controllers
         /// <param name="remark">描述</param>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post)]
-        public JsonResult Build(string uid, string name, string category, int date, int heading, double lat, double lng, string remark)
+        public JsonResult Build(string uid, string name, string category, long date, int heading, double lat, double lng, string remark)
         {
             try {
                 // 
@@ -104,7 +104,7 @@ namespace KCYPano.Controllers
                 if (success == false) throw new Exception(message);
                 // 时间戳转换
                 DateTime start = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-                DateTime time = start.Add(new TimeSpan(date * 10000));
+                DateTime time = start.Add(new TimeSpan(date * 10000000));
                 // epoch = (DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10000
                 
                 // 入库
@@ -112,19 +112,20 @@ namespace KCYPano.Controllers
                     uid = uid,
                     name = name,
                     category = category,
-                    time = time,
+                    shottime = time,
                     heading = heading,
                     lat = lat,
                     lng = lng,
-                    remark = remark
+                    remark = remark,
+                    maketime = DateTime.Now
                 };
                 SceneItem sceneItem = new SceneItem() {
                     uid = uid,
                     scene = scenexml
                 };
 
-                string sql1 = "insert into PANOS(uid, name, category, time, heading, lat, lng, remark) " +
-                              "values(@uid, @name, @category, @time, @heading, @lat, @lng, @remark)";
+                string sql1 = "insert into PANOS(uid, name, category, shottime, heading, lat, lng, remark, maketime) " +
+                              "values(@uid, @name, @category, @shottime, @heading, @lat, @lng, @remark, @maketime)";
                 string sql2 = "insert into PANOSSCENE(uid, scene) " +
                               "values(@uid, @scene)";
                 SQLiteConnection conn = new SQLiteConnection(_connstr);
@@ -145,16 +146,27 @@ namespace KCYPano.Controllers
                     System.IO.File.Move(tile, tilefile);
                 }
                 
-                // 保存图片
+                // 保存图片 和 基本信息
                 string imagesave = string.Format("{0}\\{1}.JPG", Server.MapPath(PANO_SAVE_PATH), uid);
                 System.IO.File.Move(imagefile, imagesave);
+                StreamWriter writer = new StreamWriter(string.Format("{0}\\{1}.TXT", Server.MapPath(PANO_SAVE_PATH), uid));
+                writer.WriteLine(panoItem.uid.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine(panoItem.name.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine(panoItem.category.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine(panoItem.shottime);
+                writer.WriteLine(panoItem.heading);
+                writer.WriteLine(panoItem.lat);
+                writer.WriteLine(panoItem.lng);
+                writer.WriteLine(panoItem.remark.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine(panoItem.maketime);
+                writer.Flush();
+                writer.Close();
                 
                 // 删除成图临时目录
                 string outputdir = string.Format("{0}\\{1}", Server.MapPath(PANO_TEMP_PATH), uid);
                 System.IO.Directory.Delete(outputdir, true);
 
                 return Json(new { code = 0, success = true, uid = uid, message = "" });
-
             }
             catch (Exception ex) {
                 return Json(new { code = 101, success = false, uid = "", message = ex.Message });
