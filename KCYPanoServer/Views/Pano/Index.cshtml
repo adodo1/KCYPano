@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="css/leaflet.label.css" />
+    <script src="js/leaflet-src.js"></script>
+    <script src="js/leaflet.label-src.js"></script>
+    <script src="js/jquery.js"></script>
+</head>
+
+
+<body>
+
+
+    <div id="map" style="position: absolute; width: 100%; height: 100%;"> </div>
+
+
+</body>
+
+
+</html>
+
+
+<script>
+    var jsonLayer = null;
+    var jsonName = null;
+
+    // 初始化地图
+    var map = L.map('map');
+    map.attributionControl.addAttribution('&copy; <a href="http://www.lzdodo.cn/">柳州市勘测测绘研究院</a>');
+    initMAP = function () {
+        // 从url里读取参数
+        var lat = /lat=(-?\d*\.\d*)/i.exec(window.location.hash);
+        var lng = /lng=(-?\d*\.\d*)/i.exec(window.location.hash);
+        var zoom = /zoom=(\d+)/i.exec(window.location.hash);
+        if (lat && lng && zoom) { map.setView([lat[1], lng[1]], zoom[1]); }
+        else { map.setView([24.305555, 109.43], 14); }
+        window.location.hash = "";
+    };
+    initMAP();
+
+    console.log("11");
+
+    // 谷歌地图
+    var url = 'http://mt3.google.cn/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}'
+    L.TileLayer.OfflineMAP = L.TileLayer.extend({
+        getTileUrl: function (tilePoint) {
+            return L.Util.template(this._url, L.extend({
+                s: this._getSubdomain(tilePoint),
+                z: tilePoint.z.toString(),
+                x: tilePoint.x.toString(),
+                y: tilePoint.y.toString()
+            }, this.options));
+        }
+    });
+    console.log("22");
+    L.tileLayer.offlineMAP = function (url, options) {
+        return new L.TileLayer.OfflineMAP(url, options);
+    };
+    var googlemap = L.tileLayer.offlineMAP(url, {
+        subdomain: '012',
+        maxZoom: 18,
+        errorTileUrl: './null.jpg'
+    }).addTo(map);
+
+    console.log("33");
+
+    // 显示或隐藏全景 如果URL为空 隐藏全景
+    function showPanorama(url) {
+        window.location = url;
+    }
+    console.log("44");
+    // 处理事件
+    function onEachFeature(feature, layer) {
+        layer.on({
+            click: function () {
+                // 跳转前先保存当前参数
+                var center = map.getCenter();
+                var zoom = map.getZoom();
+                params = []
+                params.push('lat=' + center.lat);
+                params.push('lng=' + center.lng);
+                params.push('zoom=' + zoom);
+                location.hash = params.join('&');
+
+                // 跳转到全景
+                showPanorama("@Url.Action("Look", "Pano")?uid=" + feature.properties.uid);
+            }
+        });
+    }
+    console.log("55");
+    // 加载点数据
+    function loadData(file) {
+        // 先卸载掉原来的数据
+        if (jsonLayer != null) map.removeLayer(jsonLayer);
+        // 加载新的数据
+        $.getJSON(file, function (states) {
+            addToMAP(states);
+        },
+        null);
+        // 记录打开的文件名
+        jsonName = file;
+    }
+    console.log("66");
+    loadData("@Url.Action("PanoList", "Pano")");
+    // JSON加入到地图上
+    function addToMAP(states) {
+        jsonLayer = L.geoJson(states, {
+            // 每个要素
+            onEachFeature: onEachFeature,
+            // 样式
+            //style: function (feature) {
+            //    switch (feature.properties.party) {
+            //        case '高空全景': return { radius: 6, color: "#ff0000" };
+            //        case '河面全景': return { radius: 6, color: "#0000ff" };
+            //        default: return {
+            //            radius: 8,
+            //            fillColor: "#ff7800",
+            //            color: "#000",
+            //            weight: 1,
+            //            opacity: 1,
+            //            fillOpacity: 0.8
+            //        };
+            //    }
+            //},
+
+
+
+            pointToLayer: function (feature, latlng) {
+                switch (feature.properties.type) {
+                    case '高空全景':
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#ff0000",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                    case '河面全景':
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#0000ff",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                    case '新增高空全景':
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#0000ff",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                    default:
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#ff7800",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                }
+            }
+
+        });
+        console.log("77");
+        jsonLayer.addTo(map);
+        console.log("88");
+    }
+    console.log("99");
+
+
+
+</script>

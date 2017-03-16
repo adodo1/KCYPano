@@ -1,0 +1,143 @@
+﻿* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+body {
+    font-size: 12px;
+    padding: 0px;
+    margin: 0px;
+	-webkit-font-smoothing: antialiased;
+}
+
+.pano_button {
+    background-color: #252525;
+    _background-color: #252525;
+    *background-color: #252525;
+    background-color: rgba(37,37,37,.9);
+    display: inline-block;
+    cursor: pointer;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+}
+
+.pano_button span {
+    display: inline-block;
+    margin: 9px;
+    height: 22px;
+    width: 22px;
+}
+
+.pano_button {
+    height: 40px;
+    width: auto;
+    text-decoration: none;
+    border-radius: 2px;
+}
+
+.pano_button em {
+    line-height: 40px;
+    height: 40px;
+    vertical-align: top;
+    color: gray;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: none;
+    margin-right: 12px;
+    font-size: 12px;
+}
+
+#pano-return-btn .pano_button span {
+    background-image: url(../img/album_aae0aec.png);
+    width: 11px;
+    height: 18px;
+    background-position: -98px -80px;
+    margin: 11px 8px 11px 19px;
+}
+
+#pano-return-btn .pano_button:hover span {
+    background-position: -79px -80px;
+}
+
+#pano-return-btn .pano_button:hover em {
+    color: #3af;
+}
+
+#pano-share-btn .pano_button {
+    border-radius: 0 0 2px 2px;
+}
+
+#pano-share-btn .pano_button span {
+    background-position: -66px -77px;
+}
+
+#pano-share-btn .pano_button:hover span, #pano-share-btn.active .pano_button span {
+    background-position: -95px -77px;
+}
+
+#pano-upload-btn .pano_button span {
+    background-position: -5px -77px;
+}
+
+#pano-upload-btn .pano_button:hover span {
+    background-position: -34px -77px;
+}
+
+#pano-upload-btn .pano_button {
+    border-radius: 0;
+}
+
+#pano-return-btn {
+    left: 13px;
+    top: 20px;
+    position: absolute;
+    z-index: 1000;
+}
+
+#map-panel {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding-right: 80px;
+}
+
+#timeline-panel {
+    position: absolute;
+    height: 100%;
+    width: 150px;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.left-panel {
+    /*左边地图面板*/
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding-right: 90px;
+    z-index:2
+}
+
+.right-panel {
+    position: absolute;
+    width: 90px;
+    background: rgba(255, 255, 255, 0.81);
+    float: right;
+    left: 10px;
+    top: 100px;
+    z-index: 4;
+    border-radius: 5px;
+}

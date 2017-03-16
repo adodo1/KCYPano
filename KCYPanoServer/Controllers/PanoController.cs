@@ -200,26 +200,32 @@ namespace KCYPano.Controllers
             string sql2 = "select * from panos where uid=@uid";
             //
             ViewData["scene"] = "";
-            SceneItem sceneItem = conn.QueryFirst<SceneItem>(sql1, new { uid = uid });
-            PanoItem panoItem = conn.QueryFirst<PanoItem>(sql2, new { uid = uid });
+            try {
+                SceneItem sceneItem = conn.QueryFirst<SceneItem>(sql1, new { uid = uid });
+                PanoItem panoItem = conn.QueryFirst<PanoItem>(sql2, new { uid = uid });
 
 
-            if (sceneItem != null && panoItem != null) {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(sceneItem.scene);
-                doc.SelectSingleNode("/scene").Attributes["name"].Value = panoItem.name;                    // 全景名称
-                doc.SelectSingleNode("/scene").Attributes["title"].Value = panoItem.name;                   // 全景标题
-                string thumburl = doc.SelectSingleNode("/scene").Attributes["thumburl"].Value;
-                thumburl = "../_tiles/" + thumburl.Substring(5);
-                doc.SelectSingleNode("/scene").Attributes["thumburl"].Value = thumburl;                     // 全景预览图
-                doc.SelectSingleNode("/scene").Attributes["lat"].Value = panoItem.lat.ToString();           // 纬度
-                doc.SelectSingleNode("/scene").Attributes["lng"].Value = panoItem.lng.ToString();           // 经度
-                doc.SelectSingleNode("/scene").Attributes["heading"].Value = panoItem.heading.ToString();   // 朝向
-                string text = doc.SelectSingleNode("/scene").InnerXml;
-                text = text.Replace("\"panos/", "\"../_tiles/");
-                doc.SelectSingleNode("/scene").InnerXml = text;
-                ViewData["scene"] = doc.OuterXml;
+                if (sceneItem != null && panoItem != null) {
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml(sceneItem.scene);
+                    doc.SelectSingleNode("/scene").Attributes["name"].Value = panoItem.name;                    // 全景名称
+                    doc.SelectSingleNode("/scene").Attributes["title"].Value = panoItem.name;                   // 全景标题
+                    string thumburl = doc.SelectSingleNode("/scene").Attributes["thumburl"].Value;
+                    thumburl = "../_tiles/" + thumburl.Substring(5);
+                    doc.SelectSingleNode("/scene").Attributes["thumburl"].Value = thumburl;                     // 全景预览图
+                    doc.SelectSingleNode("/scene").Attributes["lat"].Value = panoItem.lat.ToString();           // 纬度
+                    doc.SelectSingleNode("/scene").Attributes["lng"].Value = panoItem.lng.ToString();           // 经度
+                    doc.SelectSingleNode("/scene").Attributes["heading"].Value = panoItem.heading.ToString();   // 朝向
+                    string text = doc.SelectSingleNode("/scene").InnerXml;
+                    text = text.Replace("\"panos/", "\"../_tiles/");
+                    doc.SelectSingleNode("/scene").InnerXml = text;
+                    ViewData["scene"] = doc.OuterXml;
+                }
             }
+            catch (Exception ex) {
+                throw;
+            }
+
 
             return View();
         }
@@ -239,7 +245,27 @@ namespace KCYPano.Controllers
             conn.Open();
             string sql = "select * from panos";
             var list = conn.Query<PanoItem>(sql);
-            return Json(list, JsonRequestBehavior.AllowGet);
+            //return Json(list, JsonRequestBehavior.AllowGet);
+            List<object> result = new List<object>();
+            foreach (var item in list) {
+                var point = new {
+                    type = "Feature",
+                    geometry = new {
+                        type = "Point",
+                        coordinates = new [] {item.lng, item.lat}
+                    },
+                    properties = new {
+                        uid = item.uid,
+                        type = item.category,
+                        name = item.name,
+                        shottime = item.shottime,
+                        maketime =item.maketime,
+                        remark  = item.remark
+                    }
+                };
+                result.Add(point);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
 
             //return Json(new { code = 100, success = false, uid = 1, message = "" }, JsonRequestBehavior.AllowGet);
         }
