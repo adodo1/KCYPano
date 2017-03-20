@@ -16,8 +16,10 @@ namespace KCYPano.Models
         public int heading { get; set; }
         public double lat { get; set; }
         public double lng { get; set; }
+        public string author { get; set; }
         public string remark { get; set; }
         public DateTime maketime { get; set; }
+
 
     }
 }

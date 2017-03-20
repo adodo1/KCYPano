@@ -329,6 +329,7 @@ namespace PanoClient
                     int heading = item.PanoHeading;
                     double lat = item.PanoLat;
                     double lng = item.PanoLng;
+                    string author = item.PanoAuthor;
                     string remark = item.PanoRemark;
 
                     worker.ReportProgress(index, string.Format("{0} {1}/{2}: 开始上传图片: {3}.", DateTime.Now.ToString("HH:mm:ss"), ++index, items.Length, name));
@@ -348,7 +349,7 @@ namespace PanoClient
                     // 创建全景
                     if (success1 == false) continue;
                     worker.ReportProgress(index, string.Format("{0} {1}/{2}: 正在生成全景: {3}", DateTime.Now.ToString("HH:mm:ss"), index, items.Length, name));
-                    string result2 = client.Build(uid, name, category, date, heading, lat, lng, remark);
+                    string result2 = client.Build(uid, name, category, date, heading, lat, lng, author, remark);
                     object json2 = Json.JsonDeserialize<object>(result2);
                     bool success2 = Convert.ToBoolean(((Dictionary<string, object>)json2)["success"]);
                     string message2 = Convert.ToString(((Dictionary<string, object>)json2)["message"]);

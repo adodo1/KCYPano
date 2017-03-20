@@ -96,10 +96,11 @@ namespace KCYPano.Controllers
         /// <param name="heading">朝向</param>
         /// <param name="lat">纬度</param>
         /// <param name="lng">经度</param>
+        /// <param name="author">作者</param>
         /// <param name="remark">描述</param>
         /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post)]
-        public JsonResult Build(string uid, string name, string category, long date, int heading, double lat, double lng, string remark)
+        public JsonResult Build(string uid, string name, string category, long date, int heading, double lat, double lng, string author, string remark)
         {
             try {
                 // 
@@ -128,6 +129,7 @@ namespace KCYPano.Controllers
                     heading = heading,
                     lat = lat,
                     lng = lng,
+                    author = author,
                     remark = remark,
                     maketime = DateTime.Now
                 };
@@ -136,8 +138,8 @@ namespace KCYPano.Controllers
                     scene = scenexml
                 };
 
-                string sql1 = "insert into PANOS(uid, name, category, shottime, heading, lat, lng, remark, maketime) " +
-                              "values(@uid, @name, @category, @shottime, @heading, @lat, @lng, @remark, @maketime)";
+                string sql1 = "insert into PANOS(uid, name, category, shottime, heading, lat, lng, author, remark, maketime) " +
+                              "values(@uid, @name, @category, @shottime, @heading, @lat, @lng, @author, @remark, @maketime)";
                 string sql2 = "insert into PANOSSCENE(uid, scene) " +
                               "values(@uid, @scene)";
                 SQLiteConnection conn = new SQLiteConnection(_connstr);
@@ -162,15 +164,16 @@ namespace KCYPano.Controllers
                 string imagesave = string.Format("{0}\\{1}.JPG", Server.MapPath(PANO_SAVE_PATH), uid);
                 System.IO.File.Move(imagefile, imagesave);
                 StreamWriter writer = new StreamWriter(string.Format("{0}\\{1}.TXT", Server.MapPath(PANO_SAVE_PATH), uid));
-                writer.WriteLine(panoItem.uid.Replace("\r\n", "\\r\\n"));
-                writer.WriteLine(panoItem.name.Replace("\r\n", "\\r\\n"));
-                writer.WriteLine(panoItem.category.Replace("\r\n", "\\r\\n"));
-                writer.WriteLine(panoItem.shottime);
-                writer.WriteLine(panoItem.heading);
-                writer.WriteLine(panoItem.lat);
-                writer.WriteLine(panoItem.lng);
-                writer.WriteLine(panoItem.remark.Replace("\r\n", "\\r\\n"));
-                writer.WriteLine(panoItem.maketime);
+                writer.WriteLine("uid:" + panoItem.uid.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine("name:" + panoItem.name.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine("category:" + panoItem.category.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine("shottime:" + panoItem.shottime.ToString("yyyy/MM/dd HH:mm:ss"));
+                writer.WriteLine("heading:" + panoItem.heading.ToString());
+                writer.WriteLine("lat:" + panoItem.lat.ToString());
+                writer.WriteLine("lng:" + panoItem.lng);
+                writer.WriteLine("author:" + panoItem.author.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine("remark:" + panoItem.remark.Replace("\r\n", "\\r\\n"));
+                writer.WriteLine("maketime:" + panoItem.maketime.ToString("yyyy/MM/dd HH:mm:ss"));
                 writer.Flush();
                 writer.Close();
                 

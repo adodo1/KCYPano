@@ -410,6 +410,7 @@ namespace PanoClient.ImageListView
         private double _panoLat = 0;
         private double _panoLng = 0;
         private string _panoRemark = "";
+        private string _panoAuthor = "";
         private string _panoCategory = "高空全景";
 
         /// <summary>
@@ -470,9 +471,18 @@ namespace PanoClient.ImageListView
             set { _panoHeading = value; }
         }
         /// <summary>
+        /// 全景作者.
+        /// </summary>
+        [Category("全景属性"), Browsable(true), Description("全景作者."), DisplayName("G.作者")]
+        public string PanoAuthor
+        {
+            get { return _panoAuthor; }
+            set { _panoAuthor = value; }
+        }
+        /// <summary>
         /// 全景名称.
         /// </summary>
-        [Category("全景属性"), Browsable(true), Description("全景描述."), DisplayName("G.描述"),
+        [Category("全景属性"), Browsable(true), Description("全景描述."), DisplayName("H.描述"),
         EditorAttribute(typeof(MultilineTextEditor), typeof(System.Drawing.Design.UITypeEditor))]
         public string PanoRemark
         {

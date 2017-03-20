@@ -81,9 +81,10 @@ namespace PanoClient
         /// <param name="heading"></param>
         /// <param name="lat"></param>
         /// <param name="lng"></param>
+        /// <param name="author">作者</param>
         /// <param name="remark"></param>
         /// <returns></returns>
-        public string Build(string uid, string name, string category, long date, int heading, double lat, double lng, string remark)
+        public string Build(string uid, string name, string category, long date, int heading, double lat, double lng, string author, string remark)
         {
             Dictionary<string, string> vars = new Dictionary<string, string>();
             Dictionary<string, string> files = new Dictionary<string, string>();
@@ -94,6 +95,7 @@ namespace PanoClient
             vars["heading"] = heading.ToString();
             vars["lat"] = lat.ToString();
             vars["lng"] = lng.ToString();
+            vars["author"] = author;
             vars["remark"] = remark;
             string url = ConfigurationManager.AppSettings["panobuildurl"];
             string result = Post(url, vars, files);
