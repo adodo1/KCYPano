@@ -33,6 +33,8 @@
             this.toolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLoadIMG = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemLoadCoor = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemReadXY = new System.Windows.Forms.ToolStripMenuItem();
             this.工具TToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemSubmit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +85,9 @@
             // 
             this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemLoadIMG,
-            this.toolStripMenuItemLoadCoor});
+            this.toolStripMenuItemLoadCoor,
+            this.toolStripSeparator1,
+            this.toolStripMenuItemReadXY});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
             this.toolStripMenuItemFile.Size = new System.Drawing.Size(59, 20);
             this.toolStripMenuItemFile.Text = "文件(&F)";
@@ -101,6 +105,18 @@
             this.toolStripMenuItemLoadCoor.Size = new System.Drawing.Size(142, 22);
             this.toolStripMenuItemLoadCoor.Text = "批量导入坐标";
             this.toolStripMenuItemLoadCoor.Click += new System.EventHandler(this.toolStripMenuItemLoadCoor_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(139, 6);
+            // 
+            // toolStripMenuItemReadXY
+            // 
+            this.toolStripMenuItemReadXY.Name = "toolStripMenuItemReadXY";
+            this.toolStripMenuItemReadXY.Size = new System.Drawing.Size(142, 22);
+            this.toolStripMenuItemReadXY.Text = "读取图片坐标";
+            this.toolStripMenuItemReadXY.Click += new System.EventHandler(this.toolStripMenuItemReadXY_Click);
             // 
             // 工具TToolStripMenuItem
             // 
@@ -325,7 +341,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "全景客户端";
+            this.Text = "全景客户端 v1.0";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
@@ -372,6 +388,8 @@
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.RichTextBox richTextBox;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemReadXY;
     }
 }
 

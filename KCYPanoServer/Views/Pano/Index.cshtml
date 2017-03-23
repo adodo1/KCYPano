@@ -3,20 +3,21 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
-    <link rel="stylesheet" href="../css/leaflet.css" />
-    <link rel="stylesheet" href="../css/custom.css" />
-    <link rel="stylesheet" href="../css/leaflet.label.css" />
-    <script src="../js/leaflet-src.js"></script>
-    <script src="../js/leaflet.label-src.js"></script>
-    <script src="../js/jquery.js"></script>
+    <link rel="stylesheet" href="./css/leaflet.css" />
+    <link rel="stylesheet" href="./css/custom.css" />
+    <link rel="stylesheet" href="./css/leaflet.label.css" />
+    <script src="./js/leaflet-src.js"></script>
+    <script src="./js/leaflet.label-src.js"></script>
+    <script src="./js/jquery.js"></script>
+
+    <script src="./js/esri-leaflet.js"></script>
+    <script src="./js/map-core.js"></script>
 </head>
 
 
 <body>
 
-
     <div id="map" style="position: absolute; width: 100%; height: 100%;"> </div>
-
 
 </body>
 
@@ -25,6 +26,11 @@
 
 
 <script>
+
+    if (document.all) {
+        window.location = "/static/index.html";
+    }
+
     var jsonLayer = null;
     var jsonName = null;
 
@@ -37,42 +43,17 @@
         var lng = /lng=(-?\d*\.\d*)/i.exec(window.location.hash);
         var zoom = /zoom=(\d+)/i.exec(window.location.hash);
         if (lat && lng && zoom) { map.setView([lat[1], lng[1]], zoom[1]); }
-        else { map.setView([24.305555, 109.43], 14); }
+        else { map.setView([24.31145319, 109.40603971], 12); }
         window.location.hash = "";
     };
     initMAP();
 
-    console.log("11");
-
-    // 谷歌地图
-    var url = 'http://mt3.google.cn/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}'
-    L.TileLayer.OfflineMAP = L.TileLayer.extend({
-        getTileUrl: function (tilePoint) {
-            return L.Util.template(this._url, L.extend({
-                s: this._getSubdomain(tilePoint),
-                z: tilePoint.z.toString(),
-                x: tilePoint.x.toString(),
-                y: tilePoint.y.toString()
-            }, this.options));
-        }
-    });
-    console.log("22");
-    L.tileLayer.offlineMAP = function (url, options) {
-        return new L.TileLayer.OfflineMAP(url, options);
-    };
-    var googlemap = L.tileLayer.offlineMAP(url, {
-        subdomain: '012',
-        maxZoom: 18,
-        errorTileUrl: './null.jpg'
-    }).addTo(map);
-
-    console.log("33");
+    var mapCore = L.Core(map);
 
     // 显示或隐藏全景 如果URL为空 隐藏全景
     function showPanorama(url) {
         window.location = url;
     }
-    console.log("44");
     // 处理事件
     function onEachFeature(feature, layer) {
         layer.on({
@@ -91,7 +72,6 @@
             }
         });
     }
-    console.log("55");
     // 加载点数据
     function loadData(file) {
         // 先卸载掉原来的数据
@@ -104,7 +84,6 @@
         // 记录打开的文件名
         jsonName = file;
     }
-    console.log("66");
     loadData("@Url.Action("PanoList", "Pano")");
     // JSON加入到地图上
     function addToMAP(states) {
@@ -130,6 +109,20 @@
 
 
             pointToLayer: function (feature, latlng) {
+
+                // 
+                
+                if ((new Date().getTime() - feature.properties.maketime) / 1000 < 3600 * 24) {
+                    return L.circleMarker(latlng, {
+                        radius: 8,
+                        fillColor: "#FBFB64",
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                }
+
                 switch (feature.properties.type) {
                     case '高空全景':
                         return L.circleMarker(latlng, {
@@ -171,11 +164,14 @@
             }
 
         });
-        console.log("77");
+
+        map.on('overlayadd', function(layer, name){
+            layer.layer.bringToBack()
+            jsonLayer.bringToFront();
+        });
+
         jsonLayer.addTo(map);
-        console.log("88");
     }
-    console.log("99");
 
 
 

@@ -230,7 +230,9 @@ namespace PanoClient
             dialog.Filter = "全景图片|*.jpg;*.png;*.bmp|所有文件|*.*";
             dialog.Multiselect = true;
             if (DialogResult.OK != dialog.ShowDialog(this)) return;
-            foreach (string file in dialog.FileNames) {
+            List<string> files = new List<string>(dialog.FileNames);
+            files.Sort();
+            foreach (string file in files) {
                 imageListView.Items.Add(file);
             }
             dataGridViewPano.DataSource = null;
@@ -433,5 +435,51 @@ namespace PanoClient
         }
 
 
+        /// <summary>
+        /// 解析图片信息
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="lat"></param>
+        /// <param name="lng"></param>
+        /// <returns></returns>
+        private bool GetData(string file, out double lat, out double lng)
+        {
+            try {
+                double[] lats, lngs;
+
+                using (ExifReader reader = new ExifReader(file)) {
+                    bool success1 = reader.GetTagValue(ExifTags.GPSLatitude, out lats);
+                    bool success2 = reader.GetTagValue(ExifTags.GPSLongitude, out lngs);
+                }
+                lat = lats[0] + lats[1] / 60.0 + lats[2] / 3600.0;
+                lng = lngs[0] + lngs[1] / 60.0 + lngs[2] / 3600.0;
+                return true;
+            }
+            catch (Exception ex) { lat = lng = 0; return false; }
+        }
+        /// <summary>
+        /// 读取图片坐标
+        /// </summary>
+        private void toolStripMenuItemReadXY_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = true;
+            dialog.Filter = "图片文件|*.jpg;*.png;*.bmp;*.tif;|所有文件|*.*";
+            if (DialogResult.OK != dialog.ShowDialog()) return;
+            List<string> files = new List<string>(dialog.FileNames);
+            files.Sort();
+
+            int num = 0;
+            string result = "";
+            foreach (string file in files) {
+                double lat, lng;
+                bool success = GetData(file, out lat, out lng);
+                if (success == false) continue;
+                result += string.Format("{0:00}\t{1:0.00000000}\t{2:0.00000000}\t{3}\r\n", num++, lat, lng, System.IO.Path.GetFileName(file));
+            }
+            PrintCoorForm form = new PrintCoorForm(result);
+            form.ShowDialog(this);
+
+        }
     }
 }

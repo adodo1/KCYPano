@@ -116,6 +116,7 @@
   <ItemGroup>
     <Compile Include="Common\ExifReader.cs" />
     <Compile Include="Common\ExifTags.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PanoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -131,10 +132,21 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="js\esri-leaflet-src.js" />
+    <Content Include="js\esri-leaflet.js" />
+    <Content Include="js\jquery.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\leaflet-src.js" />
+    <Content Include="js\leaflet.js" />
+    <Content Include="js\leaflet.label-src.js" />
+    <Content Include="js\leaflet.label.js" />
+    <Content Include="js\map-core.js" />
+    <Content Include="js\star-frameset.js" />
     <Content Include="panorama\krpano.js" />
     <Content Include="panorama\krpano.swf" />
     <Content Include="panorama\_template.html" />
     <Content Include="panorama\_template.xml" />
+    <Content Include="static\index.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -22,6 +22,7 @@ namespace KCYPano.Controllers
         private static string PANO_DATA_PATH = "~/_data/";                              // 存放数据目录
         private static string PANO_SAVE_PATH = "~/_save/";                              // 全景保存目录
         private static string PANO_TILE_PATH = "~/_tiles/";                             // 全景保存目录
+        private static string PANO_OLD_DATA = "~/_olddata/";                            // 旧的全景目录
         private static string PANO_TOOL_EXE = "~/_tools/krpano/krpanotools64.exe";      // 制作全景工具
 
         public ActionResult Index()
@@ -56,10 +57,16 @@ namespace KCYPano.Controllers
             //return View(json);
             ////@Model.uid
 
+            #region 新增对旧数据的支持
+            string oldhtml = string.Format("{0}\\{1}.html", Server.MapPath(PANO_OLD_DATA), uid);
+            string oldurl = string.Format("{0}/{1}.html", PANO_OLD_DATA, uid);
+            if (System.IO.File.Exists(oldhtml)) return Redirect(oldurl);
+            #endregion
+
+
             ViewData["uid"] = uid;
             //@ViewData["uid"]
             return View();
-            
         }
         /// <summary>
         /// 上传全景图片
@@ -232,6 +239,11 @@ namespace KCYPano.Controllers
 
             return View();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Get)]
         public JsonResult PanoInfo(string uid)
         {
@@ -261,8 +273,8 @@ namespace KCYPano.Controllers
                         uid = item.uid,
                         type = item.category,
                         name = item.name,
-                        shottime = item.shottime,
-                        maketime =item.maketime,
+                        shottime = (item.shottime.Ticks - 621355968000000000) / 10000,
+                        maketime = (item.maketime.Ticks - 621355968000000000) / 10000,
                         remark  = item.remark
                     }
                 };
@@ -271,6 +283,28 @@ namespace KCYPano.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
 
             //return Json(new { code = 100, success = false, uid = 1, message = "" }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 删除指定全景图
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult PanoDel(string uid)
+        {
+            if (uid.Contains(".")) return Json(new { code = 101, success = false, uid = uid, message = "非法的UID" }, JsonRequestBehavior.AllowGet);
+            // 删数据库
+            SQLiteConnection conn = new SQLiteConnection(_connstr);
+            conn.Open();
+            conn.Execute("delete from panos where uid=@uid", new { uid = uid });
+            conn.Execute("delete from panosscene where uid=@uid", new { uid = uid });
+            conn.Close();
+            // 删瓦片
+            string tileroot = Server.MapPath(PANO_TILE_PATH);
+            string tilepath = System.IO.Path.GetFullPath(tileroot + "/" + uid + ".tiles");
+            if (System.IO.Directory.Exists(tilepath)) System.IO.Directory.Delete(tilepath, true);
+            // 返回
+            return Json(new { code = 100, success = true, uid = uid, message = "已删除全景:" + uid }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
         public FileResult PanoTile(string uid, string file)
@@ -284,6 +318,6 @@ namespace KCYPano.Controllers
 
         }
 
-
+        
     }
 }
