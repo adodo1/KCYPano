@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="css/leaflet.label.css"/>
+    <script src="js/leaflet-src.js"></script>
+    <script src="js/leaflet.label-src.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/esri-leaflet.js"></script>
+    <script src="js/map-core.js"></script>
+</head>
+
+
+<body>
+
+
+    <div id="map" style="position: absolute; width: 100%; height: 100%;"> </div>
+
+
+</body>
+
+
+</html>
+
+
+<script>
+    var jsonLayer = null;
+
+    // 初始化地图
+    var map = L.map('map');
+    map.attributionControl.addAttribution('&copy; <a href="http://www.lzdodo.com/">柳州市勘测测绘研究院</a>');
+    initMAP = function () {
+        // 从url里读取参数
+        var coors = /(\d*)\/(-?\d*\.\d*)\/(-?\d*\.\d*)/i.exec(window.location.hash);
+        if (coors) {
+            var zoom = coors[1];
+            var lat = coors[2];
+            var lng = coors[3];
+            map.setView([lat, lng], zoom);
+        }
+        else { map.setView([24.32801505, 109.41387177], 13); }
+        
+
+        loadData("./points.txt");
+        window.location.hash = "";
+    };
+    initMAP();
+
+    var core = L.Core(map);
+    var hash = L.hash(map);
+
+    // 显示或隐藏全景 如果URL为空 隐藏全景
+    function showPanorama(url) {
+        window.location = "./panorama.html?url=" + url;
+    }
+
+    // 处理事件
+    function onEachFeature(feature, layer) {
+        layer.on({
+            click: function () {
+                // 跳转到全景
+                showPanorama(feature.properties.url);
+            }
+        });
+    }
+
+    // 加载点数据
+    function loadData(file) {
+        // 先卸载掉原来的数据
+        if (jsonLayer != null) map.removeLayer(jsonLayer);
+        // 加载新的数据
+        $.getJSON(file, function (states) {
+            addToMAP(states);
+            }, null);
+    }
+    // JSON加入到地图上
+    function addToMAP(states) {
+        jsonLayer = L.geoJson(states, {
+            // 每个要素
+            onEachFeature: onEachFeature,
+            // 样式
+            //style: function (feature) {
+            //    switch (feature.properties.party) {
+            //        case '高空全景': return { radius: 6, color: "#ff0000" };
+            //        case '河面全景': return { radius: 6, color: "#0000ff" };
+            //        default: return {
+            //            radius: 8,
+            //            fillColor: "#ff7800",
+            //            color: "#000",
+            //            weight: 1,
+            //            opacity: 1,
+            //            fillOpacity: 0.8
+            //        };
+            //    }
+            //},
+
+            
+            
+            pointToLayer: function (feature, latlng) {
+                switch (feature.properties.type) {
+                    case '高空全景':
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#ff0000",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                    case '河面全景':
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#0000ff",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                    case '新增高空全景':
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#0000ff",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                    default:
+                        return L.circleMarker(latlng, {
+                            radius: 8,
+                            fillColor: "#ff7800",
+                            color: "#000",
+                            weight: 1,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).bindLabel(feature.properties.name, { direction: 'left' }).addTo(map);
+                }
+            }
+
+        });
+        jsonLayer.addTo(map);
+    }
+
+
+
+</script>
+
+

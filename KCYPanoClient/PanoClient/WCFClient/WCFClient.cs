@@ -58,6 +58,27 @@ namespace PanoClient
             }
         }
         /// <summary>
+        /// GET请求数据
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        private string Get(string url)
+        {
+            using (HttpClient client = new HttpClient()) {
+                // 设定要响应的数据格式 text/json 或者 text/xml
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("text/json"));
+                try {
+                    var result = client.GetAsync(url).Result;               // GET请求
+                    var html = result.Content.ReadAsStringAsync().Result;   // 将响应结果显示在文本框内
+                    return html;
+                }
+                catch (Exception ex) {
+                    string result = ex.ToString();  // 将异常信息显示在文本框内
+                    return result;
+                }
+            }
+        }
+        /// <summary>
         /// 上传一张全景图
         /// </summary>
         /// <param name="file"></param>
@@ -101,8 +122,58 @@ namespace PanoClient
             string result = Post(url, vars, files);
             return result;
         }
-        
-
+        /// <summary>
+        /// 获取已有全景点列表
+        /// </summary>
+        /// <returns></returns>
+        public string PanoList()
+        {
+            string url = ConfigurationManager.AppSettings["panolist"];
+            string result = Get(url);
+            return result;
+        }
+        /// <summary>
+        /// 全景标记删除
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public string Remove(string uid)
+        {
+            Dictionary<string, string> vars = new Dictionary<string, string>();
+            Dictionary<string, string> files = new Dictionary<string, string>();
+            vars["uid"] = uid;
+            string url = ConfigurationManager.AppSettings["panoremove"];
+            string result = Post(url, vars, files);
+            return result;
+        }
+        /// <summary>
+        /// 全景标记删除
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public string Restore(string uid)
+        {
+            Dictionary<string, string> vars = new Dictionary<string, string>();
+            Dictionary<string, string> files = new Dictionary<string, string>();
+            vars["uid"] = uid;
+            string url = ConfigurationManager.AppSettings["panorestore"];
+            string result = Post(url, vars, files);
+            return result;
+        }
+        /// <summary>
+        /// 全景彻底删除
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        public string Delete(string uid)
+        {
+            Dictionary<string, string> vars = new Dictionary<string, string>();
+            Dictionary<string, string> files = new Dictionary<string, string>();
+            vars["uid"] = uid;
+            string url = ConfigurationManager.AppSettings["panodel"];
+            string result = Post(url, vars, files);
+            return result;
+        }
         public void test()
         {
             return;

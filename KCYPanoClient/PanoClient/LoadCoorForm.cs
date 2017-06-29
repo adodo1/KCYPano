@@ -73,7 +73,7 @@ namespace PanoClient
                     double d = 0;
                     if (double.TryParse(v, out d) == false) continue;
                     // 用简单的方式判断经纬度
-                    if (0 <= d && d <= 90) lat = d;                 // 纬度
+                    if (20 <= d && d <= 90) lat = d;                 // 纬度
                     else if (100 <= d && d <= 180) lng = d;         // 经度
                 }
                 if (lat == 0 || lng == 0) continue;

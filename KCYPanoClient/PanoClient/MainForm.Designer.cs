@@ -45,14 +45,21 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.imageListView = new PanoClient.ImageListView.ImageListView();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
-            this.MainMap = new PanoClient.Map();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridViewPano = new System.Windows.Forms.DataGridView();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.richTextBox = new System.Windows.Forms.RichTextBox();
+            this.toolStripMenuItemRemove = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemRestore = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItemDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.imageListView = new PanoClient.ImageListView.ImageListView();
+            this.MainMap = new PanoClient.Map();
+            this.toolStripMenuItemOutOffline = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.menuStrip.SuspendLayout();
             this.statusStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -85,9 +92,9 @@
             // 
             this.toolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemLoadIMG,
-            this.toolStripMenuItemLoadCoor,
+            this.toolStripMenuItemReadXY,
             this.toolStripSeparator1,
-            this.toolStripMenuItemReadXY});
+            this.toolStripMenuItemLoadCoor});
             this.toolStripMenuItemFile.Name = "toolStripMenuItemFile";
             this.toolStripMenuItemFile.Size = new System.Drawing.Size(59, 20);
             this.toolStripMenuItemFile.Text = "文件(&F)";
@@ -121,6 +128,13 @@
             // 工具TToolStripMenuItem
             // 
             this.工具TToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemRemove,
+            this.toolStripMenuItemRestore,
+            this.toolStripSeparator2,
+            this.toolStripMenuItemOutOffline,
+            this.toolStripSeparator4,
+            this.toolStripMenuItemDelete,
+            this.toolStripSeparator3,
             this.toolStripMenuItemSubmit});
             this.工具TToolStripMenuItem.Name = "工具TToolStripMenuItem";
             this.工具TToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
@@ -129,7 +143,7 @@
             // toolStripMenuItemSubmit
             // 
             this.toolStripMenuItemSubmit.Name = "toolStripMenuItemSubmit";
-            this.toolStripMenuItemSubmit.Size = new System.Drawing.Size(94, 22);
+            this.toolStripMenuItemSubmit.Size = new System.Drawing.Size(152, 22);
             this.toolStripMenuItemSubmit.Text = "提交";
             this.toolStripMenuItemSubmit.Click += new System.EventHandler(this.toolStripMenuItemSubmit_Click);
             // 
@@ -211,20 +225,6 @@
             this.splitContainer1.SplitterDistance = 238;
             this.splitContainer1.TabIndex = 2;
             // 
-            // imageListView
-            // 
-            this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
-            this.imageListView.Location = new System.Drawing.Point(0, 0);
-            this.imageListView.Name = "imageListView";
-            this.imageListView.PersistentCacheDirectory = "";
-            this.imageListView.PersistentCacheSize = ((long)(100));
-            this.imageListView.Size = new System.Drawing.Size(238, 613);
-            this.imageListView.TabIndex = 1;
-            this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
-            this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView_KeyDown);
-            // 
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -243,32 +243,6 @@
             this.splitContainer2.Size = new System.Drawing.Size(915, 613);
             this.splitContainer2.SplitterDistance = 429;
             this.splitContainer2.TabIndex = 3;
-            // 
-            // MainMap
-            // 
-            this.MainMap.Bearing = 0F;
-            this.MainMap.CanDragMap = true;
-            this.MainMap.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MainMap.EmptyTileColor = System.Drawing.Color.Navy;
-            this.MainMap.GrayScaleMode = false;
-            this.MainMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.MainMap.LevelsKeepInMemmory = 5;
-            this.MainMap.Location = new System.Drawing.Point(0, 0);
-            this.MainMap.MarkersEnabled = true;
-            this.MainMap.MaxZoom = 2;
-            this.MainMap.MinZoom = 2;
-            this.MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.MainMap.Name = "MainMap";
-            this.MainMap.NegativeMode = false;
-            this.MainMap.PolygonsEnabled = true;
-            this.MainMap.RetryLoadTile = 0;
-            this.MainMap.RoutesEnabled = true;
-            this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.MainMap.ShowTileGridLines = false;
-            this.MainMap.Size = new System.Drawing.Size(915, 429);
-            this.MainMap.TabIndex = 0;
-            this.MainMap.Zoom = 0D;
             // 
             // tabControl
             // 
@@ -329,6 +303,89 @@
             this.richTextBox.TabIndex = 0;
             this.richTextBox.Text = "";
             // 
+            // toolStripMenuItemRemove
+            // 
+            this.toolStripMenuItemRemove.Name = "toolStripMenuItemRemove";
+            this.toolStripMenuItemRemove.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemRemove.Text = "移除全景";
+            this.toolStripMenuItemRemove.Click += new System.EventHandler(this.toolStripMenuItemRemove_Click);
+            // 
+            // toolStripMenuItemRestore
+            // 
+            this.toolStripMenuItemRestore.Name = "toolStripMenuItemRestore";
+            this.toolStripMenuItemRestore.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemRestore.Text = "恢复全景";
+            this.toolStripMenuItemRestore.Click += new System.EventHandler(this.toolStripMenuItemRestore_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
+            // 
+            // toolStripMenuItemDelete
+            // 
+            this.toolStripMenuItemDelete.Name = "toolStripMenuItemDelete";
+            this.toolStripMenuItemDelete.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemDelete.Text = "彻底删除";
+            this.toolStripMenuItemDelete.Click += new System.EventHandler(this.toolStripMenuItemDelete_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
+            // 
+            // imageListView
+            // 
+            this.imageListView.ColumnHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.imageListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageListView.GroupHeaderFont = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold);
+            this.imageListView.Location = new System.Drawing.Point(0, 0);
+            this.imageListView.Name = "imageListView";
+            this.imageListView.PersistentCacheDirectory = "";
+            this.imageListView.PersistentCacheSize = ((long)(100));
+            this.imageListView.Size = new System.Drawing.Size(238, 613);
+            this.imageListView.TabIndex = 1;
+            this.imageListView.SelectionChanged += new System.EventHandler(this.imageListView_SelectionChanged);
+            this.imageListView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.imageListView_KeyDown);
+            // 
+            // MainMap
+            // 
+            this.MainMap.Bearing = 0F;
+            this.MainMap.CanDragMap = true;
+            this.MainMap.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.MainMap.EmptyTileColor = System.Drawing.Color.Navy;
+            this.MainMap.GrayScaleMode = false;
+            this.MainMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.MainMap.LevelsKeepInMemmory = 5;
+            this.MainMap.Location = new System.Drawing.Point(0, 0);
+            this.MainMap.MarkersEnabled = true;
+            this.MainMap.MaxZoom = 2;
+            this.MainMap.MinZoom = 2;
+            this.MainMap.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.MainMap.Name = "MainMap";
+            this.MainMap.NegativeMode = false;
+            this.MainMap.PolygonsEnabled = true;
+            this.MainMap.RetryLoadTile = 0;
+            this.MainMap.RoutesEnabled = true;
+            this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.MainMap.ShowTileGridLines = false;
+            this.MainMap.Size = new System.Drawing.Size(915, 429);
+            this.MainMap.TabIndex = 0;
+            this.MainMap.Zoom = 0D;
+            // 
+            // toolStripMenuItemOutOffline
+            // 
+            this.toolStripMenuItemOutOffline.Name = "toolStripMenuItemOutOffline";
+            this.toolStripMenuItemOutOffline.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItemOutOffline.Text = "导出全景";
+            this.toolStripMenuItemOutOffline.Click += new System.EventHandler(this.toolStripMenuItemOutOffline_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -341,7 +398,7 @@
             this.MainMenuStrip = this.menuStrip;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "全景客户端 v1.0";
+            this.Text = "全景客户端 v1.1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
@@ -390,6 +447,13 @@
         private System.Windows.Forms.RichTextBox richTextBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemReadXY;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRemove;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemRestore;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemDelete;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemOutOffline;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
     }
 }
 

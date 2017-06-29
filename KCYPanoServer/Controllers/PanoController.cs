@@ -258,7 +258,7 @@ namespace KCYPano.Controllers
         {
             SQLiteConnection conn = new SQLiteConnection(_connstr);
             conn.Open();
-            string sql = "select * from panos";
+            string sql = "select * from panos where FLAG is Null or FLAG not in('DEL')";
             var list = conn.Query<PanoItem>(sql);
             //return Json(list, JsonRequestBehavior.AllowGet);
             List<object> result = new List<object>();
@@ -285,7 +285,7 @@ namespace KCYPano.Controllers
             //return Json(new { code = 100, success = false, uid = 1, message = "" }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// 删除指定全景图
+        /// 删除指定全景图 彻底删除
         /// </summary>
         /// <param name="uid"></param>
         /// <returns></returns>
@@ -306,6 +306,51 @@ namespace KCYPano.Controllers
             // 返回
             return Json(new { code = 100, success = true, uid = uid, message = "已删除全景:" + uid }, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// 全景标记为删除 不是真正的删除
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult PanoRemove(string uid)
+        {
+            if (uid.Contains(".")) return Json(new { code = 101, success = false, uid = uid, message = "非法的UID" }, JsonRequestBehavior.AllowGet);
+            // 标记删除
+            SQLiteConnection conn = new SQLiteConnection(_connstr);
+            conn.Open();
+            conn.Execute("update panos set FLAG='DEL' where uid=@uid", new { uid = uid });
+            conn.Close();
+
+            return Json(new { code = 100, success = true, uid = uid, message = "标记删除全景:" + uid }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 标记为删除的全景还原
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult PanoRestore(string uid)
+        {
+            if (uid.Contains(".")) return Json(new { code = 101, success = false, uid = uid, message = "非法的UID" }, JsonRequestBehavior.AllowGet);
+            // 标记删除
+            SQLiteConnection conn = new SQLiteConnection(_connstr);
+            conn.Open();
+            conn.Execute("update panos set FLAG='' where uid=@uid", new { uid = uid });
+            conn.Close();
+
+            return Json(new { code = 100, success = true, uid = uid, message = "已还原全景:" + uid }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 全景导出离线数据
+        /// </summary>
+        /// <param name="uids"></param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public FileResult PanoGetOffline(string uids)
+        {
+            return File(new FileStream(@"F:\DoDo\勘测院全景系统\KCYPano\data\topband.jpg", FileMode.Open, FileAccess.Read, FileShare.Read), "image/jpeg");
+        }
+
         [HttpGet]
         public FileResult PanoTile(string uid, string file)
         {

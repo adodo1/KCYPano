@@ -19,6 +19,7 @@ namespace PanoClient
     {
         private GMapMarker _curentMarker = null;
         public readonly GMapOverlay _markers = new GMapOverlay("markers");  // 单张照片
+        public readonly GMapOverlay _panos = new GMapOverlay("panos");      // 旧全景点
         private BackgroundWorker _worker;
 
         public MainForm()
@@ -105,7 +106,54 @@ namespace PanoClient
                 MainMap.OnMarkerLeave += MainMap_OnMarkerLeave;
                 MainMap.OnMarkerEnter += MainMap_OnMarkerEnter;
 
+                MainMap.Overlays.Add(_panos);
                 MainMap.Overlays.Add(_markers);
+
+                // 加载已有全景点
+                WCFClient client = new WCFClient();
+                string html = client.PanoList();
+                object json = Json.JsonDeserialize<object>(html);
+
+                object[] panos = (object[])json;
+                foreach (object item in panos) {
+  //{
+  //  "type": "Feature",
+  //  "geometry": {
+  //    "type": "Point",
+  //    "coordinates": [
+  //      109.4517117,
+  //      24.29770159
+  //    ]
+  //  },
+  //  "properties": {
+  //    "uid": "7be54ce31c31438b9714620432d6b88f",
+  //    "type": "高空全景",
+  //    "name": "一五八医院",
+  //    "shottime": -62135596800000,
+  //    "maketime": -62135596800000,
+  //    "remark": "D:\\wwwroot\\panos_整理\\gaokong\\158yiyuan.html"
+  //  }
+  //},
+                    Dictionary<string, object> pano = (Dictionary<string, object>)item;
+                    Dictionary<string, object> geometry = (Dictionary<string, object>)pano["geometry"];
+                    object[] coordinates = (object[])geometry["coordinates"];
+                    double lng = Convert.ToDouble(coordinates[0]);
+                    double lat = Convert.ToDouble(coordinates[1]);
+
+                    Dictionary<string, object> properties = (Dictionary<string, object>)pano["properties"];
+                    string uid = Convert.ToString(properties["uid"]);
+                    string name = Convert.ToString(properties["name"]);
+                    long shottime = Convert.ToInt64(properties["shottime"]);
+
+
+                    GMapMarker marker = new GMarkerGoogle(new PointLatLng(lat, lng), GMarkerGoogleType.blue_small);
+                    marker.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                    marker.ToolTipText = name;
+                    _panos.Markers.Add(marker);
+                }
+
+                //_panos
+                
             }
         }
         /// <summary>
@@ -230,6 +278,7 @@ namespace PanoClient
             dialog.Filter = "全景图片|*.jpg;*.png;*.bmp|所有文件|*.*";
             dialog.Multiselect = true;
             if (DialogResult.OK != dialog.ShowDialog(this)) return;
+            tabControl.SelectedIndex = 0;
             List<string> files = new List<string>(dialog.FileNames);
             files.Sort();
             foreach (string file in files) {
@@ -479,6 +528,81 @@ namespace PanoClient
             }
             PrintCoorForm form = new PrintCoorForm(result);
             form.ShowDialog(this);
+
+        }
+        /// <summary>
+        /// 标记删除
+        /// </summary>
+        private void toolStripMenuItemRemove_Click(object sender, EventArgs e)
+        {
+            SelectPanosForm form = new SelectPanosForm();
+            if (DialogResult.OK != form.ShowDialog(this)) return;
+            List<string> uids = form.UIDS;
+            if (DialogResult.Yes != MessageBox.Show(string.Format("是否要移除全景数据？\r\n\r\n共 {0} 景.", uids.Count), "移除全景", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) return;
+            tabControl.SelectedIndex = 1;
+
+            WCFClient client = new WCFClient();
+            foreach (string uid in uids) {
+                string result = client.Remove(uid);
+
+                object json = Json.JsonDeserialize<object>(result);
+                bool success = Convert.ToBoolean(((Dictionary<string, object>)json)["success"]);
+                string message = Convert.ToString(((Dictionary<string, object>)json)["message"]);
+                if (success) ShowMessage(string.Format("{0} 全景: {1} 已经移除.", DateTime.Now.ToString("HH:mm:ss"), uid), Color.Blue);
+                else ShowMessage(string.Format("{0} 全景: {1} 移除失败 - {2}.", DateTime.Now.ToString("HH:mm:ss"), uid, message), Color.Red);
+            }
+        }
+        /// <summary>
+        /// 恢复删除
+        /// </summary>
+        private void toolStripMenuItemRestore_Click(object sender, EventArgs e)
+        {
+            SelectPanosForm form = new SelectPanosForm();
+            if (DialogResult.OK != form.ShowDialog(this)) return;
+            List<string> uids = form.UIDS;
+            if (DialogResult.Yes != MessageBox.Show(string.Format("是否要恢复全景数据？\r\n\r\n共 {0} 景.", uids.Count), "恢复全景", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) return;
+            tabControl.SelectedIndex = 1;
+
+            WCFClient client = new WCFClient();
+            foreach (string uid in uids) {
+                string result = client.Restore(uid);
+
+                object json = Json.JsonDeserialize<object>(result);
+                bool success = Convert.ToBoolean(((Dictionary<string, object>)json)["success"]);
+                string message = Convert.ToString(((Dictionary<string, object>)json)["message"]);
+                if (success) ShowMessage(string.Format("{0} 全景: {1} 已经恢复.", DateTime.Now.ToString("HH:mm:ss"), uid), Color.Blue);
+                else ShowMessage(string.Format("{0} 全景: {1} 恢复失败 - {2}.", DateTime.Now.ToString("HH:mm:ss"), uid, message), Color.Red);
+            }
+        }
+        /// <summary>
+        /// 彻底删除
+        /// </summary>
+        private void toolStripMenuItemDelete_Click(object sender, EventArgs e)
+        {
+            SelectPanosForm form = new SelectPanosForm();
+            if (DialogResult.OK != form.ShowDialog(this)) return;
+            List<string> uids = form.UIDS;
+            if (DialogResult.Yes != MessageBox.Show(string.Format("是否要删除全景数据？\r\n\r\n共 {0} 景.", uids.Count), "删除全景", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) return;
+            if (DialogResult.Yes != MessageBox.Show("删除的全景将无法恢复，是否继续？", "删除全景", MessageBoxButtons.YesNo, MessageBoxIcon.Question)) return;
+            if (DialogResult.Yes != MessageBox.Show("是否继续删除？", "警告", MessageBoxButtons.YesNo, MessageBoxIcon.Warning)) return;
+            tabControl.SelectedIndex = 1;
+
+            WCFClient client = new WCFClient();
+            foreach (string uid in uids) {
+                string result = client.Delete(uid);
+
+                object json = Json.JsonDeserialize<object>(result);
+                bool success = Convert.ToBoolean(((Dictionary<string, object>)json)["success"]);
+                string message = Convert.ToString(((Dictionary<string, object>)json)["message"]);
+                if (success) ShowMessage(string.Format("{0} 全景: {1} 已经删除.", DateTime.Now.ToString("HH:mm:ss"), uid), Color.Blue);
+                else ShowMessage(string.Format("{0} 全景: {1} 删除失败 - {2}.", DateTime.Now.ToString("HH:mm:ss"), uid, message), Color.Red);
+            }
+        }
+        /// <summary>
+        /// 导出全景数据
+        /// </summary>
+        private void toolStripMenuItemOutOffline_Click(object sender, EventArgs e)
+        {
 
         }
     }
