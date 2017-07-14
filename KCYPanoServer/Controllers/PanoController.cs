@@ -214,6 +214,17 @@ namespace KCYPano.Controllers
                 SceneItem sceneItem = conn.QueryFirst<SceneItem>(sql1, new { uid = uid });
                 PanoItem panoItem = conn.QueryFirst<PanoItem>(sql2, new { uid = uid });
 
+                //<layer name="map" keep="true"
+                //       url="bingmaps.swf" alturl="../panorama/plugins/leafletmaps.js"
+                //       align="rightbottom" x="0" y="0" width="270" height="300"
+                //       lat="24.30522" lng="109.429847" zoom="15">
+
+                //    <spot name="stpeterssquare" active="true"
+                //          lat="24.30522" lng="109.429847" heading="64.5"
+                //          onclick="" />
+
+                //    <radar visible="true" zoomwithmap="true" size="50" />
+                //</layer>
 
                 if (sceneItem != null && panoItem != null) {
                     XmlDocument doc = new XmlDocument();
@@ -229,7 +240,23 @@ namespace KCYPano.Controllers
                     string text = doc.SelectSingleNode("/scene").InnerXml;
                     text = text.Replace("\"panos/", "\"../_tiles/");
                     doc.SelectSingleNode("/scene").InnerXml = text;
-                    ViewData["scene"] = doc.OuterXml;
+
+
+                    string radar = @"
+<layer name=`map` keep=`true`
+       url=`bingmaps.swf` alturl=`../panorama/plugins/leafletmaps.js`
+       align=`rightbottom` x=`0` y=`0` width=`270` height=`300`
+       lat=`{0}` lng=`{1}` zoom=`16`>
+    <spot name=`stpeterssquare` active=`true`
+          lat=`{0}` lng=`{1}` heading=`{2}`
+          onclick=`` />
+    <radar visible=`true` zoomwithmap=`true` size=`50` />
+</layer>";
+                    radar = radar.Replace("`", "\"");
+                    radar = string.Format(radar, panoItem.lat, panoItem.lng, panoItem.heading);
+
+
+                    ViewData["scene"] = doc.OuterXml + radar;
                 }
             }
             catch (Exception ex) {
