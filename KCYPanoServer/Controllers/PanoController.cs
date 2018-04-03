@@ -310,7 +310,7 @@ namespace KCYPano.Controllers
                     type = "Feature",
                     geometry = new {
                         type = "Point",
-                        coordinates = new [] {item.lng, item.lat}
+                        coordinates = new[] { item.lng, item.lat }
                     },
                     properties = new {
                         uid = item.uid,
@@ -327,6 +327,46 @@ namespace KCYPano.Controllers
 
             //return Json(new { code = 100, success = false, uid = 1, message = "" }, JsonRequestBehavior.AllowGet);
         }
+
+        /// <summary>
+        /// 获取全景点列表80 西安80坐标
+        /// </summary>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Get)]
+        public JsonResult PanoList80()
+        {
+            SQLiteConnection conn = new SQLiteConnection(_connstr);
+            conn.Open();
+            string sql = "select * from panos where FLAG is Null or FLAG not in('DEL')";
+            var list = conn.Query<PanoItem>(sql);
+            //return Json(list, JsonRequestBehavior.AllowGet);
+            List<object> result = new List<object>();
+            foreach (var item in list) {
+
+                double lng = item.lng;
+                double lat = item.lat;
+                double[] coors = SHPCoord.WGS84XA80.Instance.WGS84_XA80(lat, lng, 0);
+
+                var point = new {
+                    type = "Feature",
+                    geometry = new {
+                        type = "Point",
+                        coordinates = new[] { coors[0], coors[1] }
+                    },
+                    properties = new {
+                        uid = item.uid,
+                        type = item.category,
+                        name = item.name,
+                        shottime = (item.shottime.Ticks - 621355968000000000) / 10000,
+                        maketime = (item.maketime.Ticks - 621355968000000000) / 10000,
+                        remark  = item.remark
+                    }
+                };
+                result.Add(point);
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
         /// <summary>
         /// 删除指定全景图 彻底删除
         /// </summary>
