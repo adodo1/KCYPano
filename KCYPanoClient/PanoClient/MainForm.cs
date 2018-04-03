@@ -114,7 +114,10 @@ namespace PanoClient
                 string html = client.PanoList();
                 object json = Json.JsonDeserialize<object>(html);
 
-                object[] panos = (object[])json;
+                object[] panos = null;
+                if (json is object[]) panos = (object[])json;
+                else if (json is Dictionary<string, object>) panos = (object[])((Dictionary<string, object>)json)["features"];
+
                 foreach (object item in panos) {
   //{
   //  "type": "Feature",

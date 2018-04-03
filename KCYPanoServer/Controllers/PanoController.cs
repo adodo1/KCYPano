@@ -229,7 +229,7 @@ namespace KCYPano.Controllers
                 if (sceneItem != null && panoItem != null) {
                     XmlDocument doc = new XmlDocument();
                     doc.LoadXml(sceneItem.scene);
-                    doc.SelectSingleNode("/scene").Attributes["name"].Value = panoItem.name;                    // 全景名称
+                    doc.SelectSingleNode("/scene").Attributes["name"].Value = "_" + uid;                        // 全景名称
                     doc.SelectSingleNode("/scene").Attributes["title"].Value = panoItem.name;                   // 全景标题
                     string thumburl = doc.SelectSingleNode("/scene").Attributes["thumburl"].Value;
                     thumburl = "../_tiles/" + thumburl.Substring(5);
@@ -246,11 +246,11 @@ namespace KCYPano.Controllers
 <layer name=`map` keep=`true`
        url=`bingmaps.swf` alturl=`../panorama/plugins/leafletmaps.js`
        align=`rightbottom` x=`0` y=`0` width=`270` height=`300`
-       lat=`{0}` lng=`{1}` zoom=`16`>
+       lat=`{0}` lng=`{1}` zoom=`14`>
     <spot name=`stpeterssquare` active=`true`
           lat=`{0}` lng=`{1}` heading=`{2}`
           onclick=`` />
-    <radar visible=`true` zoomwithmap=`true` size=`50` />
+    <radar visible=`true` zoomwithmap=`true` size=`40` />
 </layer>";
                     radar = radar.Replace("`", "\"");
                     radar = string.Format(radar, panoItem.lat, panoItem.lng, panoItem.heading);
@@ -275,6 +275,22 @@ namespace KCYPano.Controllers
         public JsonResult PanoInfo(string uid)
         {
             return Json(new { code = 100, success = false, uid = 1, message = "" }, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 修正全景角度
+        /// </summary>
+        /// <param name="uid">全景ID</param>
+        /// <param name="lookat">修正角度</param>
+        /// <returns></returns>
+        [AcceptVerbs(HttpVerbs.Post)]
+        public JsonResult North(string uid, int lookat)
+        {
+            lookat = lookat % 360;
+            SQLiteConnection conn = new SQLiteConnection(_connstr);
+            conn.Open();
+            int result = conn.Execute("update PANOS set HEADING=@lookat WHERE UID=@uid", new { uid = uid, lookat = lookat });
+            conn.Close();
+            return Json(new { code = 100, success = result > 0, uid = uid, message = "" }, JsonRequestBehavior.AllowGet);
         }
         /// <summary>
         /// 获取全景点列表
